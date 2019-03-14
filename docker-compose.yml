@@ -1,0 +1,20 @@
+version: "3.0"
+
+services:
+  spring-boot:
+    image: 'uni.mirkoz.homebanking-demo/homebanking-demo-backend:latest'
+    ports:
+      - "8080:8080"
+      - "8000:8000"
+  db:
+    image: 'mysql:5.7'
+    volumes:
+      - ./db-data:/var/lib/mysql
+    ports:
+      - "33306:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: "root1234"
+      MYSQL_DATABASE: "pps-home-banking"
+      MYSQL_USER: "pps-home-banking"
+      MYSQL_PASSWORD: "pps1234"
+
