@@ -1,11 +1,15 @@
 version: "3.0"
 
 services:
-  spring-boot:
-    image: 'uni.mirkoz.homebanking-demo/homebanking-demo-backend:latest'
+  backend:
+    image: 'uni.mirkoz.homebanking-demo/backend:latest'
     ports:
       - "8080:8080"
       - "8000:8000"
+  frontend:
+    image: 'uni.mirkoz.homebanking-demo/frontend:latest'
+    ports:
+      - "80:80"
   db:
     image: 'mysql:5.7'
     volumes:

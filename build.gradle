@@ -8,14 +8,11 @@ buildscript {
         }
     }
     dependencies {
-        classpath("gradle.plugin.com.palantir.gradle.docker:gradle-docker:0.21.0")
-        classpath("org.springframework.boot:spring-boot-gradle-plugin:2.0.5.RELEASE")
-        classpath "com.moowork.gradle:gradle-node-plugin:1.2.0"
+        classpath("org.springframework.boot:spring-boot-gradle-plugin:2.1.6.RELEASE")
     }
 }
 
 apply plugin: "idea"
-apply plugin: 'com.palantir.docker-compose'
 
 allprojects {
     apply plugin: 'base'
@@ -23,5 +20,4 @@ allprojects {
 
 subprojects {
     group "${rootProject.group}.homebanking-demo"
-    apply plugin: 'com.palantir.docker'
 }
