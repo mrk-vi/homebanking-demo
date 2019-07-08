@@ -8,12 +8,12 @@ apply plugin: 'io.spring.dependency-management'
 
 dependencies {
     compile 'org.springframework.boot:spring-boot-starter-data-jpa'
-    compile("com.h2database:h2")
-//    implementation 'org.springframework.boot:spring-boot-starter-security'
+    compile 'com.h2database:h2'
+    compile 'mysql:mysql-connector-java'
     compile 'org.springframework.boot:spring-boot-starter-web'
     compile 'org.projectlombok:lombok'
+    //compile 'org.springframework.boot:spring-boot-starter-security'
     runtimeOnly 'org.springframework.boot:spring-boot-devtools'
-//    runtimeOnly 'mysql:mysql-connector-java'
     annotationProcessor 'org.projectlombok:lombok'
 //    testImplementation 'org.springframework.boot:spring-boot-starter-test'
 //    testImplementation 'org.springframework.security:spring-security-test'

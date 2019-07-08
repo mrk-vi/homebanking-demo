@@ -23,7 +23,7 @@ public class BankAccount {
     private List<BankingOperation> bankingOperations;
     @OneToMany
     @JoinColumn(name = "bank_account_id")
-    private List<ServiceOperation> serviceOperations;
+    private List<BankServiceOperation> bankServiceOperations;
     @NaturalId
     private String iban;
     @Column
