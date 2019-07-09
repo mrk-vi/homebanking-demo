@@ -1,14 +1,16 @@
 package uni.mirkoz.homebankingdemo.model.users;
 
-import lombok.Data;
-import lombok.EqualsAndHashCode;
+import lombok.*;
 import uni.mirkoz.homebankingdemo.model.accounts.BankAccount;
 import uni.mirkoz.homebankingdemo.model.banks.BankBranch;
 
 import javax.persistence.*;
 import java.util.List;
 
-@Data@Entity
+@Data@Builder
+@Entity
+@NoArgsConstructor
+@AllArgsConstructor
 public class Customer {
 
     @Id@GeneratedValue(strategy = GenerationType.AUTO)
@@ -22,9 +24,4 @@ public class Customer {
     private User user;
     @Enumerated(value = EnumType.ORDINAL)
     private Status status;
-
-    enum Status {
-        AUTHORIZED,
-        UNAUTHORIZED,
-    }
 }

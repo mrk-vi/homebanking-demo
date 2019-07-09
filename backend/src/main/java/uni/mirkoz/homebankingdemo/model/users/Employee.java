@@ -1,14 +1,16 @@
 package uni.mirkoz.homebankingdemo.model.users;
 
-import lombok.Data;
-import lombok.EqualsAndHashCode;
+import lombok.*;
 import uni.mirkoz.homebankingdemo.model.banks.BankBranch;
 import uni.mirkoz.homebankingdemo.model.accounts.BankingOperation;
 
 import javax.persistence.*;
 import java.util.List;
 
-@Data@Entity
+@Data@Builder
+@Entity
+@NoArgsConstructor
+@AllArgsConstructor
 public class Employee {
 
     @Id@GeneratedValue(strategy = GenerationType.AUTO)

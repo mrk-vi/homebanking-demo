@@ -7,7 +7,10 @@ import org.springframework.stereotype.Component;
 import javax.persistence.*;
 import java.util.Date;
 
-@Data@Entity
+@Data@Builder
+@Entity
+@NoArgsConstructor
+@AllArgsConstructor
 public class Administrator{
 
     @Id@GeneratedValue(strategy = GenerationType.AUTO)
