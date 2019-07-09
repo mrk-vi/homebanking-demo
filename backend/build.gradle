@@ -1,36 +1,23 @@
 repositories {
     mavenCentral()
+    jcenter()
 }
 
 apply plugin: 'java'
 apply plugin: 'org.springframework.boot'
 apply plugin: 'io.spring.dependency-management'
 
-
-bootJar {
- baseName = 'homebanking-demo-backend'
-}
-
 dependencies {
-    //implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
-    //implementation 'org.springframework.boot:spring-boot-starter-security'
-    implementation 'org.springframework.boot:spring-boot-starter-web'
-    //compileOnly 'org.projectlombok:lombok'
+    compile 'org.springframework.boot:spring-boot-starter-data-jpa'
+    compile 'com.h2database:h2'
+    compile 'mysql:mysql-connector-java'
+    compile 'org.springframework.boot:spring-boot-starter-web'
+    compile "io.springfox:springfox-swagger2:2.9.2"
+    compile "io.springfox:springfox-swagger-ui:2.9.2"
+    compile 'org.projectlombok:lombok'
+    //compile 'org.springframework.boot:spring-boot-starter-security'
     runtimeOnly 'org.springframework.boot:spring-boot-devtools'
-    //runtimeOnly 'mysql:mysql-connector-java'
-    //annotationProcessor 'org.projectlombok:lombok'
-    //testImplementation 'org.springframework.boot:spring-boot-starter-test'
-    //testImplementation 'org.springframework.security:spring-security-test'
+    annotationProcessor 'org.projectlombok:lombok'
+//    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+//    testImplementation 'org.springframework.security:spring-security-test'
 }
-/**
-task unpack(type: Copy) {
-    dependsOn bootJar
-    from(zipTree(tasks.bootJar.outputs.files.singleFile))
-    into("build/dependency")
-}
-
-docker {
-    name "${project.group}/${bootJar.baseName}"
-    copySpec.from(tasks.unpack.outputs).into("dependency")
-    buildArgs(['DEPENDENCY': "dependency"])
-}**/

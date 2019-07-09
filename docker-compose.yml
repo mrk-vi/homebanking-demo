@@ -1,12 +1,26 @@
 version: "3.0"
 
 services:
-  spring-boot:
-    image: 'uni.mirkoz.homebanking-demo/homebanking-demo-backend:latest'
+  backend:
+    container_name: backend
+    image: uni.mirkoz.homebanking-demo/backend:latest
     ports:
       - "8080:8080"
       - "8000:8000"
+    environment:
+      DB_DRIVER: "com.mysql.jdbc.Driver"
+      DB_URL: "jdbc:mysql://db:3306/pps-home-banking"
+      DB_USER: "pps-home-banking"
+      DB_PASS: "pps1234"
+      DB_DIALECT: "MySQLDialect"
+      DB_CONSOLE: "false"
+  frontend:
+    container_name: frontend
+    image: 'uni.mirkoz.homebanking-demo/frontend:latest'
+    ports:
+      - "80:80"
   db:
+    container_name: db
     image: 'mysql:5.7'
     volumes:
       - ./db-data:/var/lib/mysql
