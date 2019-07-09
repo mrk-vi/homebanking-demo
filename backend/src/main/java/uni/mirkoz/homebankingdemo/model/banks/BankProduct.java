@@ -10,8 +10,13 @@ public class BankProduct {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
-    @ManyToOne
+    @Enumerated(EnumType.ORDINAL)
     private Product product;
     @ManyToOne
     private Bank bank;
+
+    enum Product {
+        ACCT,
+        PREPAID
+    }
 }
