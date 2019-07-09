@@ -1,11 +1,12 @@
 package uni.mirkoz.homebankingdemo.model.users;
 
-import lombok.*;
-import net.bytebuddy.description.field.FieldDescription;
-import org.springframework.stereotype.Component;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import java.util.Date;
 
 @Data@Builder
 @Entity
@@ -15,6 +16,8 @@ public class Administrator{
 
     @Id@GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
-    @OneToOne(optional = false)
+
+    @OneToOne(optional = false, cascade = CascadeType.ALL)
+    @JsonManagedReference
     private User user;
 }

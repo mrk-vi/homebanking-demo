@@ -1,6 +1,5 @@
 package uni.mirkoz.homebankingdemo.controller.rest.administrator;
 
-import lombok.Data;
 import org.springframework.web.bind.annotation.*;
 import uni.mirkoz.homebankingdemo.model.banks.Bank;
 import uni.mirkoz.homebankingdemo.model.users.BankManager;
@@ -24,6 +23,11 @@ public class AdminDashboard {
         return administratorService.getBanks();
     }
 
+    @GetMapping(value = "managers", produces = "application/json")
+    public List<BankManager> getBankManagers() {
+        return administratorService.getBankManagers();
+    }
+
     @GetMapping(value = "bank/{id}", produces = "application/json")
     public Bank getBank(@PathVariable Integer id) {
         return administratorService.getBank(id);
@@ -31,48 +35,33 @@ public class AdminDashboard {
 
     @PostMapping(value = "bank", produces = "application/json", consumes = "application/json")
     public Bank createBank(@RequestBody CreateBankForm form) {
-        Bank bank = Bank.builder()
-                .name(form.getBankName())
-                .address(form.getBankAddress())
-                .description(form.getBankDescription())
-                .build();
-        User user = User.builder()
-                .mail(form.getMail())
-                .username(form.getUsername())
-                .build();
-        BankManager bankManager = BankManager.builder()
-                .user(user)
-                .build();
-        return administratorService.saveBank(bank, bankManager);
+        return administratorService.saveBank(
+                Bank.builder()
+                        .name(form.getBankName())
+                        .address(form.getBankAddress())
+                        .description(form.getBankDescription())
+                        .build(),
+                BankManager.builder()
+                        .user(User.builder()
+                                .username(form.getUsername())
+                                .mail(form.getMail())
+                                .build())
+                        .build()
+        );
     }
 
-    @PutMapping(value = "bank/{id}/bankManager", produces = "application/json", consumes = "application/json")
+    @PutMapping(value = "bank/{id}/bank-manager", produces = "application/json", consumes = "application/json")
     public Bank assignBankManager(@RequestBody AssignBankManagerForm form, @PathVariable Integer id) {
-            Bank bank = administratorService.getBank(id);
-            User user = User.builder()
-                    .mail(form.getMail())
-                    .username(form.getUsername())
-                    .build();
-            BankManager bankManager = BankManager.builder()
-                    .user(user)
-                    .build();
-            return administratorService.assignBankManager(bank, bankManager);
+            return administratorService.assignBankManager(
+                    administratorService.getBank(id),
+                    BankManager.builder()
+                            .user(User.builder()
+                                    .mail(form.getMail())
+                                    .username(form.getUsername())
+                                    .build())
+                            .build()
+            );
     }
 
 }
 
-@Data
-class CreateBankForm {
-    private String bankName;
-    private String bankAddress;
-    private String bankDescription;
-    // TODO handling images uploads
-    private String username;
-    private String mail;
-}
-
-@Data
-class AssignBankManagerForm {
-    private String username;
-    private String mail;
-}

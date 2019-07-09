@@ -1,7 +1,10 @@
 package uni.mirkoz.homebankingdemo.model.users;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import lombok.*;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 import uni.mirkoz.homebankingdemo.model.banks.Bank;
 
 import javax.persistence.*;
@@ -14,12 +17,15 @@ public class BankManager {
 
     @Id@GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
-    @JsonIgnore
-    @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "bank_id")
+
+    @ManyToOne
+    @JsonManagedReference
     private Bank bank;
-    @OneToOne(optional = false)
+
+    @OneToOne(optional = false, cascade = CascadeType.ALL)
+    @JsonManagedReference
     private User user;
+
     @Enumerated(value = EnumType.ORDINAL)
     private Status status;
 }
