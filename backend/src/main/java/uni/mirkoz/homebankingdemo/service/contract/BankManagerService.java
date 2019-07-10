@@ -1,4 +1,4 @@
-package uni.mirkoz.homebankingdemo.service;
+package uni.mirkoz.homebankingdemo.service.contract;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -20,21 +20,19 @@ public interface BankManagerService {
 
     BankService createBankService(Bank bank, BankService bankService);
 
-    Employee assignEmployee(BankBranch bankBranch, Employee employee);
-
-    BankProduct updateInterestRate(BankProduct bankProduct, Float interestRate);
-
     BankBranch getBankBranch(Integer id);
 
     BankProduct getBankProduct(Integer id);
 
     BankManager getBankManager(Integer id);
 
-    Bank getBank(Integer id);
-
     List<BankBranch> getBankBranches(Integer id);
 
     List<BankProduct> getBankProducts(Integer id);
 
     List<BankService> getBankServices(Integer id);
+
+    Employee assignEmployee(BankBranch bankBranch, Employee employee);
+
+    BankProduct updateInterestRate(BankProduct bankProduct, Float interestRate);
 }
