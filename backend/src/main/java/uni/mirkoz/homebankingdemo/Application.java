@@ -4,14 +4,12 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import uni.mirkoz.homebankingdemo.model.banks.Bank;
 import uni.mirkoz.homebankingdemo.model.banks.BankBranch;
 import uni.mirkoz.homebankingdemo.model.banks.BankProduct;
 import uni.mirkoz.homebankingdemo.model.banks.BankService;
-import uni.mirkoz.homebankingdemo.model.users.Administrator;
-import uni.mirkoz.homebankingdemo.model.users.BankManager;
-import uni.mirkoz.homebankingdemo.model.users.Employee;
-import uni.mirkoz.homebankingdemo.model.users.User;
+import uni.mirkoz.homebankingdemo.model.users.*;
 import uni.mirkoz.homebankingdemo.repository.banks.BankRepository;
 import uni.mirkoz.homebankingdemo.repository.users.AdministratorRepository;
 import uni.mirkoz.homebankingdemo.service.AdministratorService;
@@ -30,12 +28,15 @@ public class Application {
     CommandLineRunner initDatabase(
             AdministratorRepository administratorRepository,
             AdministratorService administratorService,
-            BankManagerService bankManagerService) {
+            BankManagerService bankManagerService,
+            PasswordEncoder encoder) {
         return args -> {
             administratorRepository.save(Administrator.builder()
                     .user(User.builder()
                             .username("admin")
                             .mail("admin@localhost.com")
+                            .password(encoder.encode("admin"))
+                            .status(Status.ENABLED)
                             .build())
                     .build());
             for (int i = 0; i < 3; i++) {
@@ -49,6 +50,8 @@ public class Application {
                                 .user(User.builder()
                                         .username("manager"+i)
                                         .mail("manager"+i+"@localhost.com")
+                                        .password(encoder.encode("password"))
+                                        .status(Status.ENABLED)
                                         .build())
                                 .build()
                 );
@@ -68,6 +71,8 @@ public class Application {
                                     .user(User.builder()
                                             .mail("employee"+i+""+j+"@localhost.com")
                                             .username("employee"+i+""+j)
+                                            .password(encoder.encode("password"))
+                                            .status(Status.ENABLED)
                                             .build())
                                     .build()
                     );
