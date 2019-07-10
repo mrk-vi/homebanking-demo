@@ -12,11 +12,11 @@ import java.util.Optional;
 
 @Service
 @Transactional
-public class CustomUserDetailsService implements UserDetailsService {
+public class HomeBankingUserDetailsService implements UserDetailsService {
 
     private UserRepository userRepository;
 
-    CustomUserDetailsService(UserRepository userRepository){
+    HomeBankingUserDetailsService(UserRepository userRepository){
         this.userRepository = userRepository;
     }
 
@@ -24,7 +24,7 @@ public class CustomUserDetailsService implements UserDetailsService {
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         Optional<User> user = userRepository.findByUsername(username);
         if (user.isPresent())
-            return new CustomUserPrincipal(user.get());
+            return new HomeBankingUserPrincipal(user.get());
         else
             throw new UsernameNotFoundException(username);
     }

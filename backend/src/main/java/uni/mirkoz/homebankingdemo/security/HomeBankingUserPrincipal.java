@@ -3,31 +3,31 @@ package uni.mirkoz.homebankingdemo.security;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
-import uni.mirkoz.homebankingdemo.model.users.Status;
-import uni.mirkoz.homebankingdemo.model.users.User;
+import uni.mirkoz.homebankingdemo.model.users.*;
 
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.Optional;
 
-public class CustomUserPrincipal implements UserDetails {
+public class HomeBankingUserPrincipal implements HomeBankingUserDetails {
 
     private User user;
 
-    public CustomUserPrincipal(User user) {
+    public HomeBankingUserPrincipal(User user) {
         this.user = user;
     }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         List<SimpleGrantedAuthority> authorities = new ArrayList<>();
-        if (user.getAdministrator() != null)
+        if (getAdministrator().isPresent())
             authorities.add( new SimpleGrantedAuthority("admin") );
-        if (user.getBankManager() != null)
+        if (getBankManager().isPresent())
             authorities.add( new SimpleGrantedAuthority("manager") );
-        if (user.getEmployee() != null)
+        if (getEmployee().isPresent())
             authorities.add( new SimpleGrantedAuthority("employee") );
-        if (user.getCustomers() != null && ! user.getCustomers().isEmpty())
+        if (getCustomers().isPresent() && ! getCustomers().get().isEmpty())
             authorities.add( new SimpleGrantedAuthority("customer") );
         return authorities;
     }
@@ -60,5 +60,25 @@ public class CustomUserPrincipal implements UserDetails {
     @Override
     public boolean isEnabled() {
         return user.getStatus() == Status.ENABLED;
+    }
+
+    @Override
+    public Optional<Administrator> getAdministrator() {
+        return Optional.ofNullable(user.getAdministrator());
+    }
+
+    @Override
+    public Optional<BankManager> getBankManager() {
+        return Optional.ofNullable(user.getBankManager());
+    }
+
+    @Override
+    public Optional<Employee> getEmployee() {
+        return Optional.ofNullable(user.getEmployee());
+    }
+
+    @Override
+    public Optional<List<Customer>> getCustomers() {
+        return Optional.ofNullable(user.getCustomers());
     }
 }
