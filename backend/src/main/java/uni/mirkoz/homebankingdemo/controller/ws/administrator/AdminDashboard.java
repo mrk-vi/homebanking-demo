@@ -1,5 +1,6 @@
 package uni.mirkoz.homebankingdemo.controller.ws.administrator;
 
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import uni.mirkoz.homebankingdemo.controller.ws.administrator.form.AssignBankManagerForm;
 import uni.mirkoz.homebankingdemo.controller.ws.administrator.form.CreateBankForm;
@@ -10,8 +11,9 @@ import uni.mirkoz.homebankingdemo.service.contract.AdministratorService;
 
 import java.util.List;
 
-@RestController
+@Controller
 @RequestMapping("/admin")
+@ResponseBody
 public class AdminDashboard {
 
     private AdministratorService administratorService;

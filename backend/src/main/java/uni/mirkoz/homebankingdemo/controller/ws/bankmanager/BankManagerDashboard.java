@@ -1,24 +1,23 @@
 package uni.mirkoz.homebankingdemo.controller.ws.bankmanager;
 
 import org.springframework.http.HttpStatus;
-import org.springframework.transaction.annotation.Transactional;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import uni.mirkoz.homebankingdemo.controller.ws.bankmanager.form.*;
 import uni.mirkoz.homebankingdemo.model.banks.Bank;
 import uni.mirkoz.homebankingdemo.model.banks.BankBranch;
 import uni.mirkoz.homebankingdemo.model.banks.BankProduct;
 import uni.mirkoz.homebankingdemo.model.banks.BankService;
-import uni.mirkoz.homebankingdemo.model.users.BankManager;
 import uni.mirkoz.homebankingdemo.model.users.Employee;
 import uni.mirkoz.homebankingdemo.model.users.User;
 import uni.mirkoz.homebankingdemo.service.contract.AuthenticationService;
 import uni.mirkoz.homebankingdemo.service.contract.BankManagerService;
 
 import java.util.List;
-import java.util.NoSuchElementException;
 
-@RestController
+@Controller
 @RequestMapping("/manager")
+@ResponseBody
 public class BankManagerDashboard {
 
     private BankManagerService bankManagerService;
@@ -97,7 +96,7 @@ public class BankManagerDashboard {
     }
 
 
-    @PutMapping(value = "bank-branch/{id}/employee", consumes = "application/json", produces = "application/json")
+    @PostMapping(value = "bank-branch/{id}/employee", consumes = "application/json", produces = "application/json")
     public Employee assignEmployee(@PathVariable Integer id, @RequestBody AssignEmployeeForm form){
         return bankManagerService.assignEmployee(
                 bankManagerService.getBankBranch(id),
