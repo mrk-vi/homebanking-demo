@@ -6,7 +6,9 @@ import uni.mirkoz.homebankingdemo.controller.ws.administrator.form.AssignBankMan
 import uni.mirkoz.homebankingdemo.controller.ws.administrator.form.CreateBankForm;
 import uni.mirkoz.homebankingdemo.model.banks.Bank;
 import uni.mirkoz.homebankingdemo.model.users.BankManager;
+import uni.mirkoz.homebankingdemo.model.users.Customer;
 import uni.mirkoz.homebankingdemo.model.users.User;
+import uni.mirkoz.homebankingdemo.repository.users.CustomerRepository;
 import uni.mirkoz.homebankingdemo.service.contract.AdministratorService;
 
 import java.util.List;
@@ -25,6 +27,11 @@ public class AdminDashboard {
     @GetMapping(value = "banks", produces = "application/json")
     public List<Bank> getBanks() {
         return administratorService.getBanks();
+    }
+
+    @GetMapping(value = "unauthorized-customers", produces = "application/json")
+    public List<Customer> getCustomers() {
+        return administratorService.getUnauthorizedCustomers();
     }
 
     @GetMapping(value = "managers", produces = "application/json")
@@ -65,6 +72,11 @@ public class AdminDashboard {
                                     .build())
                             .build()
             );
+    }
+
+    @PutMapping(value = "customer/{id}/auth", produces="application/json")
+    public Customer authorizeCustomer(@PathVariable Integer id) {
+        return administratorService.authorizeCustomer(id);
     }
 
 }

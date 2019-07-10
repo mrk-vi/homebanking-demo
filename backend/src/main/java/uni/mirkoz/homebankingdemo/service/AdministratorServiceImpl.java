@@ -3,10 +3,12 @@ package uni.mirkoz.homebankingdemo.service;
 import org.springframework.stereotype.Component;
 import uni.mirkoz.homebankingdemo.model.banks.Bank;
 import uni.mirkoz.homebankingdemo.model.users.BankManager;
+import uni.mirkoz.homebankingdemo.model.users.Customer;
 import uni.mirkoz.homebankingdemo.model.users.Status;
 import uni.mirkoz.homebankingdemo.model.users.User;
 import uni.mirkoz.homebankingdemo.repository.banks.BankRepository;
 import uni.mirkoz.homebankingdemo.repository.users.BankManagerRepository;
+import uni.mirkoz.homebankingdemo.repository.users.CustomerRepository;
 import uni.mirkoz.homebankingdemo.repository.users.UserRepository;
 import uni.mirkoz.homebankingdemo.service.contract.AdministratorService;
 
@@ -19,11 +21,13 @@ public class AdministratorServiceImpl implements AdministratorService {
     private BankRepository bankRepository;
     private BankManagerRepository bankManagerRepository;
     private UserRepository userRepository;
+    private CustomerRepository customerRepository;
 
-    public AdministratorServiceImpl(BankRepository bankRepository, BankManagerRepository bankManagerRepository, UserRepository userRepository) {
+    public AdministratorServiceImpl(BankRepository bankRepository, BankManagerRepository bankManagerRepository, UserRepository userRepository, CustomerRepository customerRepository) {
         this.bankRepository = bankRepository;
         this.bankManagerRepository = bankManagerRepository;
         this.userRepository = userRepository;
+        this.customerRepository = customerRepository;
     }
 
     @Override
@@ -87,5 +91,22 @@ public class AdministratorServiceImpl implements AdministratorService {
     @Override
     public Bank getBank(Integer id) {
         return bankRepository.findById(id).get();
+    }
+
+    @Override
+    public List<Customer> getUnauthorizedCustomers() {
+        return customerRepository.findCustomerByStatus(Status.UNAUTHORIZED);
+    }
+
+    @Override
+    public Customer authorizeCustomer(Integer customerId) {
+        Customer customer = customerRepository.findById(customerId).get();
+        User user = customer.getUser();
+        if (user.getStatus() == Status.UNAUTHORIZED) {
+            user.setStatus(Status.ENABLED);
+            customer.setUser(user);
+        }
+        customer.setStatus(Status.AUTHORIZED);
+        return customerRepository.save(customer);
     }
 }

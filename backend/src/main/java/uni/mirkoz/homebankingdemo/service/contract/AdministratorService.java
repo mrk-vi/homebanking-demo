@@ -4,6 +4,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import uni.mirkoz.homebankingdemo.model.banks.Bank;
 import uni.mirkoz.homebankingdemo.model.users.BankManager;
+import uni.mirkoz.homebankingdemo.model.users.Customer;
 
 import java.util.List;
 
@@ -20,5 +21,9 @@ public interface AdministratorService {
 
     List<BankManager> getBankManagers();
 
+    List<Customer> getUnauthorizedCustomers();
+
     Bank getBank(Integer id);
+
+    Customer authorizeCustomer(Integer customerId);
 }
