@@ -1,4 +1,4 @@
-package uni.mirkoz.homebankingdemo.controller.rest.bankmanager.form;
+package uni.mirkoz.homebankingdemo.controller.ws.bankmanager.form;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;

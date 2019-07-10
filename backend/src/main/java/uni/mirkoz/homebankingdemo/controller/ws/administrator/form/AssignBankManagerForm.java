@@ -1,4 +1,4 @@
-package uni.mirkoz.homebankingdemo.controller.rest.administrator.form;
+package uni.mirkoz.homebankingdemo.controller.ws.administrator.form;
 
 import lombok.Data;
 

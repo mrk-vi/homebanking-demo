@@ -1,4 +1,4 @@
-package uni.mirkoz.homebankingdemo.service;
+package uni.mirkoz.homebankingdemo.service.contract;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

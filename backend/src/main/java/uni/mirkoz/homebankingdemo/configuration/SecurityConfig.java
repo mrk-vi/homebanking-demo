@@ -6,12 +6,14 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import uni.mirkoz.homebankingdemo.security.CustomUserDetailsService;
+import uni.mirkoz.homebankingdemo.security.HomeBankingUserDetailsService;
 
 @Configuration
+@EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
@@ -22,7 +24,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Bean
     public DaoAuthenticationProvider authenticationProvider() {
         DaoAuthenticationProvider authenticationProvider = new DaoAuthenticationProvider();
-        authenticationProvider.setUserDetailsService(customUserDetailsService);
+        authenticationProvider.setUserDetailsService(homeBankingUserDetailsService);
         authenticationProvider.setPasswordEncoder(encoder());
         return authenticationProvider;
     }
@@ -50,10 +52,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .headers().frameOptions().disable(); // for h2-console
     }
 
-    private CustomUserDetailsService customUserDetailsService;
+    private HomeBankingUserDetailsService homeBankingUserDetailsService;
 
     @Autowired
-    public void setCustomUserDetailsService(CustomUserDetailsService customUserDetailsService) {
-        this.customUserDetailsService = customUserDetailsService;
+    public void setHomeBankingUserDetailsService(HomeBankingUserDetailsService homeBankingUserDetailsService) {
+        this.homeBankingUserDetailsService = homeBankingUserDetailsService;
     }
 }

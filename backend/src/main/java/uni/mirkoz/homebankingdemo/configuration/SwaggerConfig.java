@@ -19,7 +19,7 @@ public class SwaggerConfig {
     public Docket api() {
         return new Docket(DocumentationType.SWAGGER_2)
                 .select()
-                .apis(RequestHandlerSelectors.basePackage("uni.mirkoz.homebankingdemo.controller.rest"))
+                .apis(RequestHandlerSelectors.basePackage("uni.mirkoz.homebankingdemo.controller.ws"))
                 .paths(PathSelectors.any())
                 .build()
                 .apiInfo(getApiInfo());

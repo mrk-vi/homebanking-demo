@@ -10,10 +10,9 @@ import uni.mirkoz.homebankingdemo.model.banks.BankBranch;
 import uni.mirkoz.homebankingdemo.model.banks.BankProduct;
 import uni.mirkoz.homebankingdemo.model.banks.BankService;
 import uni.mirkoz.homebankingdemo.model.users.*;
-import uni.mirkoz.homebankingdemo.repository.banks.BankRepository;
 import uni.mirkoz.homebankingdemo.repository.users.AdministratorRepository;
-import uni.mirkoz.homebankingdemo.service.AdministratorService;
-import uni.mirkoz.homebankingdemo.service.BankManagerService;
+import uni.mirkoz.homebankingdemo.service.contract.AdministratorService;
+import uni.mirkoz.homebankingdemo.service.contract.BankManagerService;
 
 import java.sql.Time;
 

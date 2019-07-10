@@ -8,10 +8,9 @@ import uni.mirkoz.homebankingdemo.model.users.User;
 import uni.mirkoz.homebankingdemo.repository.banks.BankRepository;
 import uni.mirkoz.homebankingdemo.repository.users.BankManagerRepository;
 import uni.mirkoz.homebankingdemo.repository.users.UserRepository;
+import uni.mirkoz.homebankingdemo.service.contract.AdministratorService;
 
-import javax.persistence.Tuple;
 import java.util.*;
-import java.util.stream.Collectors;
 
 
 @Component

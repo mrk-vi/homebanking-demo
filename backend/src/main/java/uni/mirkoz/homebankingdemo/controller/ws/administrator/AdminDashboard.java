@@ -1,12 +1,12 @@
-package uni.mirkoz.homebankingdemo.controller.rest.administrator;
+package uni.mirkoz.homebankingdemo.controller.ws.administrator;
 
 import org.springframework.web.bind.annotation.*;
-import uni.mirkoz.homebankingdemo.controller.rest.administrator.form.AssignBankManagerForm;
-import uni.mirkoz.homebankingdemo.controller.rest.administrator.form.CreateBankForm;
+import uni.mirkoz.homebankingdemo.controller.ws.administrator.form.AssignBankManagerForm;
+import uni.mirkoz.homebankingdemo.controller.ws.administrator.form.CreateBankForm;
 import uni.mirkoz.homebankingdemo.model.banks.Bank;
 import uni.mirkoz.homebankingdemo.model.users.BankManager;
 import uni.mirkoz.homebankingdemo.model.users.User;
-import uni.mirkoz.homebankingdemo.service.AdministratorService;
+import uni.mirkoz.homebankingdemo.service.contract.AdministratorService;
 
 import java.util.List;
 
