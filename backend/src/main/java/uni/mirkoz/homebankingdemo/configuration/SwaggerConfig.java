@@ -1,4 +1,4 @@
-package uni.mirkoz.homebankingdemo;
+package uni.mirkoz.homebankingdemo.configuration;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

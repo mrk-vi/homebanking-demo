@@ -1,9 +1,9 @@
-package uni.mirkoz.homebankingdemo.controller.rest.administrator;
+package uni.mirkoz.homebankingdemo.controller.rest.administrator.form;
 
 import lombok.Data;
 
 @Data
-class CreateBankForm {
+public class CreateBankForm {
     private String bankName;
     private String bankAddress;
     private String bankDescription;

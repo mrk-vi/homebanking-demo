@@ -1,4 +1,4 @@
-package uni.mirkoz.homebankingdemo.controller.rest.bankmanager;
+package uni.mirkoz.homebankingdemo.controller.rest.bankmanager.form;
 
 import lombok.Data;
 import uni.mirkoz.homebankingdemo.model.banks.BankService;
