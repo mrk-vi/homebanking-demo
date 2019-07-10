@@ -16,5 +16,5 @@ public interface VisitorService {
 
     List<Bank> getBanks();
 
-    void sendRegistrationRequest(Customer registrationRequest);
+    void sendRegistrationRequest(Customer registrationRequest, Integer bankBranchId);
 }

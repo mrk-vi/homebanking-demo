@@ -10,6 +10,9 @@ import java.util.List;
 
 @Data@Builder
 @Entity
+@Table(uniqueConstraints={
+        @UniqueConstraint(columnNames = {"user_id", "bank_branch_id"})
+})
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString(exclude = {"user"})
