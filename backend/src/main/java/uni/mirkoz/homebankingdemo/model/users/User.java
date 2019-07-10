@@ -1,6 +1,5 @@
 package uni.mirkoz.homebankingdemo.model.users;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -10,6 +9,7 @@ import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.*;
 import java.util.Date;
+import java.util.List;
 
 @Data@Builder
 @Entity
@@ -33,4 +33,24 @@ public class User {
     @CreationTimestamp
     @Temporal(TemporalType.TIMESTAMP)
     private Date created;
+
+    @Enumerated(value = EnumType.ORDINAL)
+    private Status status;
+
+    @JsonIgnore
+    @OneToOne(mappedBy = "user")
+    private Administrator administrator;
+
+    @JsonIgnore
+    @OneToOne(mappedBy = "user")
+    private BankManager bankManager;
+
+    @JsonIgnore
+    @OneToOne(mappedBy = "user")
+    private Employee employee;
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "user", fetch = FetchType.EAGER)
+    private List<Customer> customers;
+
 }

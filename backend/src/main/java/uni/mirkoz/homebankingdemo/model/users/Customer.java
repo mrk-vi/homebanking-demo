@@ -12,6 +12,7 @@ import java.util.List;
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
+@ToString(exclude = {"user"})
 public class Customer {
 
     @Id@GeneratedValue(strategy = GenerationType.AUTO)

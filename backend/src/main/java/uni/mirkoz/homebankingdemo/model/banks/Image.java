@@ -2,10 +2,12 @@ package uni.mirkoz.homebankingdemo.model.banks;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.Data;
+import lombok.ToString;
 
 import javax.persistence.*;
 
 @Data@Entity
+@ToString(exclude = {"bank", "bankBranch"})
 public class Image {
 
     @Id@GeneratedValue(strategy = GenerationType.AUTO)

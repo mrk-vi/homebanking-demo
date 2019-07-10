@@ -2,10 +2,7 @@ package uni.mirkoz.homebankingdemo.model.users;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import uni.mirkoz.homebankingdemo.model.accounts.BankingOperation;
 import uni.mirkoz.homebankingdemo.model.banks.BankBranch;
 
@@ -16,6 +13,7 @@ import java.util.List;
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
+@ToString(exclude = {"user"})
 public class Employee {
 
     @Id@GeneratedValue(strategy = GenerationType.AUTO)
@@ -29,6 +27,7 @@ public class Employee {
     private List<BankingOperation> bankingOperations;
 
     @OneToOne(optional = false, cascade = CascadeType.ALL)
+    @JoinColumn(name = "user_id")
     @JsonManagedReference
     private User user;
 }
