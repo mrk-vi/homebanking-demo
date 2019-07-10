@@ -1,5 +1,6 @@
 package uni.mirkoz.homebankingdemo.model.banks;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.*;
 
@@ -24,7 +25,7 @@ public class BankService {
     private Type type;
 
     @ManyToOne
-    @JsonManagedReference
+    @JsonBackReference
     private Bank bank;
 
     public enum Type {

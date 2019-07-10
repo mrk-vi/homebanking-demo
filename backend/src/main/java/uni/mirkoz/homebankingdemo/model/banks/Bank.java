@@ -34,19 +34,19 @@ public class Bank {
     @JsonBackReference
     private List<BankManager> bankManagers;
 
-    @OneToMany(mappedBy = "bank", fetch = FetchType.LAZY)
-    @JsonBackReference
+    @OneToMany(mappedBy = "bank")
+    @JsonManagedReference
     private List<BankBranch> bankBranches;
 
-    @OneToMany(mappedBy = "bank", fetch = FetchType.LAZY)
-    @JsonBackReference
+    @OneToMany(mappedBy = "bank")
+    @JsonManagedReference
     private List<BankProduct> bankProducts;
 
-    @OneToMany(mappedBy = "bank", fetch = FetchType.LAZY)
-    @JsonBackReference
+    @OneToMany(mappedBy = "bank")
+    @JsonManagedReference
     private List<BankService> bankServices;
 
-    @OneToMany(mappedBy = "bank", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "bank")
     @JsonBackReference
     private List<Image> images;
 }

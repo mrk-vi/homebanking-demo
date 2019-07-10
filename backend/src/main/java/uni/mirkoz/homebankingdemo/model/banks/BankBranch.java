@@ -27,7 +27,7 @@ public class BankBranch {
     private Integer id;
 
     @ManyToOne
-    @JsonManagedReference
+    @JsonBackReference
     private Bank bank;
 
     @Column(nullable = false, unique = true)

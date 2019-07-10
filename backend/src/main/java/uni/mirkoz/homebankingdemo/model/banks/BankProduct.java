@@ -1,5 +1,6 @@
 package uni.mirkoz.homebankingdemo.model.banks;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.*;
 
@@ -21,7 +22,7 @@ public class BankProduct {
     private Type type;
 
     @ManyToOne
-    @JsonManagedReference
+    @JsonBackReference
     private Bank bank;
 
     @Column(nullable = false)
