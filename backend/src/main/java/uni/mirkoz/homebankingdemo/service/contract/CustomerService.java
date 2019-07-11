@@ -2,7 +2,7 @@ package uni.mirkoz.homebankingdemo.service.contract;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import uni.mirkoz.homebankingdemo.controller.ws.customer.form.OperationFilterForm;
+import uni.mirkoz.homebankingdemo.model.accounts.OperationFilter;
 import uni.mirkoz.homebankingdemo.model.accounts.*;
 import uni.mirkoz.homebankingdemo.model.users.User;
 
@@ -11,7 +11,7 @@ import java.util.List;
 @Service@Transactional
 public interface CustomerService {
 
-    List<Operation> getOperationsByUser(User user, OperationFilterForm filter);
+    List<Operation> getOperationsByUser(User user, OperationFilter filter);
 
     List<BankAccount> getBankAccountsByUser(User user);
 

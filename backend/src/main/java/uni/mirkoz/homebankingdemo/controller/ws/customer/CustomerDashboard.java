@@ -9,7 +9,7 @@ import uni.mirkoz.homebankingdemo.model.accounts.BankAccount;
 import uni.mirkoz.homebankingdemo.model.accounts.BankServiceOperation;
 import uni.mirkoz.homebankingdemo.model.accounts.BankingOperation;
 import uni.mirkoz.homebankingdemo.model.accounts.Operation;
-import uni.mirkoz.homebankingdemo.controller.ws.customer.form.OperationFilterForm;
+import uni.mirkoz.homebankingdemo.model.accounts.OperationFilter;
 import uni.mirkoz.homebankingdemo.model.users.User;
 import uni.mirkoz.homebankingdemo.service.contract.AuthenticationService;
 import uni.mirkoz.homebankingdemo.service.contract.CustomerService;
@@ -17,7 +17,7 @@ import uni.mirkoz.homebankingdemo.service.contract.CustomerService;
 import java.util.List;
 
 @Controller
-@RequestMapping
+@RequestMapping("/customer")
 @ResponseBody
 public class CustomerDashboard {
 
@@ -30,7 +30,7 @@ public class CustomerDashboard {
     }
 
     @GetMapping(value = "operations", produces = "application/json")
-    public List<Operation> getOperations(@RequestBody OperationFilterForm filter) {
+    public List<Operation> getOperations(@RequestBody OperationFilter filter) {
         User user = authenticationService.getPrincipal().getUser();
         return customerService.getOperationsByUser(user, filter);
     }

@@ -2,7 +2,7 @@ package uni.mirkoz.homebankingdemo.service;
 
 import org.springframework.stereotype.Component;
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
-import uni.mirkoz.homebankingdemo.controller.ws.customer.form.OperationFilterForm;
+import uni.mirkoz.homebankingdemo.model.accounts.OperationFilter;
 import uni.mirkoz.homebankingdemo.model.accounts.BankAccount;
 import uni.mirkoz.homebankingdemo.model.accounts.BankServiceOperation;
 import uni.mirkoz.homebankingdemo.model.accounts.BankingOperation;
@@ -15,7 +15,7 @@ import java.util.List;
 @Component
 public class CustomerServiceImpl implements CustomerService {
     @Override
-    public List<Operation> getOperationsByUser(User user, OperationFilterForm filter) {
+    public List<Operation> getOperationsByUser(User user, OperationFilter filter) {
         throw new NotImplementedException();
     }
 
