@@ -24,9 +24,9 @@ public class Customer {
     @ManyToOne(optional = false)
     private BankBranch bankBranch;
 
-    @OneToMany(fetch = FetchType.EAGER)
-    @JoinColumn(name = "customer_id")
-    private List<BankAccount> bankAccounts;
+//    @OneToMany(fetch = FetchType.EAGER)
+//    @JoinColumn(name = "customer_id")
+//    private List<BankAccount> bankAccounts;
 
     @ManyToOne(optional = false)
     @JsonManagedReference

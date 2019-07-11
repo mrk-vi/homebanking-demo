@@ -11,7 +11,9 @@ import java.util.List;
 @Service@Transactional
 public interface CustomerService {
 
-    List<Operation> getOperationsByUser(User user, OperationFilter filter);
+    List<BankingOperation> getBankingOperationsByUser(User user, OperationFilter filter);
+
+    List<BankServiceOperation> getServiceOperationsByUser(User user, OperationFilter filter);
 
     List<BankAccount> getBankAccountsByUser(User user);
 

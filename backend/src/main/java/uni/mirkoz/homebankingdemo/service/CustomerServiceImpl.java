@@ -2,41 +2,84 @@ package uni.mirkoz.homebankingdemo.service;
 
 import org.springframework.stereotype.Component;
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
-import uni.mirkoz.homebankingdemo.model.accounts.OperationFilter;
-import uni.mirkoz.homebankingdemo.model.accounts.BankAccount;
-import uni.mirkoz.homebankingdemo.model.accounts.BankServiceOperation;
-import uni.mirkoz.homebankingdemo.model.accounts.BankingOperation;
-import uni.mirkoz.homebankingdemo.model.accounts.Operation;
+import uni.mirkoz.homebankingdemo.model.accounts.*;
 import uni.mirkoz.homebankingdemo.model.users.User;
+import uni.mirkoz.homebankingdemo.repository.accounts.BankAccountRepository;
+import uni.mirkoz.homebankingdemo.repository.accounts.BankingOperationRepository;
+import uni.mirkoz.homebankingdemo.repository.accounts.ServiceOperationRepository;
 import uni.mirkoz.homebankingdemo.service.contract.CustomerService;
 
 import java.util.List;
 
 @Component
 public class CustomerServiceImpl implements CustomerService {
+
+    private BankAccountRepository bankAccountRepository;
+    private BankingOperationRepository bankingOperationRepository;
+    private ServiceOperationRepository serviceOperationRepository;
+
+    public CustomerServiceImpl(BankAccountRepository bankAccountRepository, BankingOperationRepository bankingOperationRepository, ServiceOperationRepository serviceOperationRepository) {
+        this.bankAccountRepository = bankAccountRepository;
+        this.bankingOperationRepository = bankingOperationRepository;
+        this.serviceOperationRepository = serviceOperationRepository;
+    }
+
     @Override
-    public List<Operation> getOperationsByUser(User user, OperationFilter filter) {
-        throw new NotImplementedException();
+    public List<BankingOperation> getBankingOperationsByUser(User user, OperationFilter filter) {
+        return bankingOperationRepository.findByBankAccount_Customer_User(user);
+    }
+
+    @Override
+    public List<BankServiceOperation> getServiceOperationsByUser(User user, OperationFilter filter) {
+        return serviceOperationRepository.findByBankAccount_Customer_User(user);
     }
 
     @Override
     public List<BankAccount> getBankAccountsByUser(User user) {
-        throw new NotImplementedException();
+        return bankAccountRepository.findBankAccountsByCustomer_User(user);
     }
 
     @Override
     public BankingOperation makeDeposit(User user, Integer bankAccountId, Float amount) {
-        throw new NotImplementedException();
+        BankAccount bankAccount = bankAccountRepository.findBankAccountsByIdAndCustomer_User(bankAccountId, user);
+
+        BankingOperation operation = new BankingOperation();
+        operation.setBankAccount(bankAccount);
+        operation.setAmount(amount);
+        operation.setOperationState(OperationState.OPEN);
+
+        operation.setOperationType(OperationType.DEPOSIT);
+
+        return bankingOperationRepository.save(operation);
     }
 
     @Override
     public BankingOperation makeWithdraw(User user, Integer bankAccountId, Float amount) {
-        throw new NotImplementedException();
+        BankAccount bankAccount = bankAccountRepository.findBankAccountsByIdAndCustomer_User(bankAccountId, user);
+
+        BankingOperation operation = new BankingOperation();
+        operation.setBankAccount(bankAccount);
+        operation.setAmount(amount);
+        operation.setOperationState(OperationState.OPEN);
+
+        operation.setOperationType(OperationType.WITHDRAW);
+
+        return bankingOperationRepository.save(operation);
     }
 
     @Override
     public BankingOperation makeTransfer(User user, Integer bankAccountId, Float amount, String recipientIban) {
-        throw new NotImplementedException();
+        BankAccount sender = bankAccountRepository.findBankAccountsByIdAndCustomer_User(bankAccountId, user);
+
+        BankingOperation operation = new BankingOperation();
+        operation.setBankAccount(sender);
+        operation.setAmount(amount);
+        operation.setRecipientIban(recipientIban);
+        operation.setOperationState(OperationState.OPEN);
+
+        operation.setOperationType(OperationType.TRANSFER);
+
+        return bankingOperationRepository.save(operation);
     }
 
     @Override

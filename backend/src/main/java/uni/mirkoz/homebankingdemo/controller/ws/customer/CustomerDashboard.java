@@ -5,11 +5,7 @@ import org.springframework.web.bind.annotation.*;
 import uni.mirkoz.homebankingdemo.controller.ws.customer.form.CarTaxForm;
 import uni.mirkoz.homebankingdemo.controller.ws.customer.form.OperationForm;
 import uni.mirkoz.homebankingdemo.controller.ws.customer.form.RefillForm;
-import uni.mirkoz.homebankingdemo.model.accounts.BankAccount;
-import uni.mirkoz.homebankingdemo.model.accounts.BankServiceOperation;
-import uni.mirkoz.homebankingdemo.model.accounts.BankingOperation;
-import uni.mirkoz.homebankingdemo.model.accounts.Operation;
-import uni.mirkoz.homebankingdemo.model.accounts.OperationFilter;
+import uni.mirkoz.homebankingdemo.model.accounts.*;
 import uni.mirkoz.homebankingdemo.model.users.User;
 import uni.mirkoz.homebankingdemo.service.contract.AuthenticationService;
 import uni.mirkoz.homebankingdemo.service.contract.CustomerService;
@@ -29,10 +25,16 @@ public class CustomerDashboard {
         this.customerService = customerService;
     }
 
-    @GetMapping(value = "operations", produces = "application/json")
-    public List<Operation> getOperations(@RequestBody OperationFilter filter) {
+    @GetMapping(value = "banking-operations", produces = "application/json")
+    public List<BankingOperation> getBankingOperations(@RequestBody OperationFilter filter) {
         User user = authenticationService.getPrincipal().getUser();
-        return customerService.getOperationsByUser(user, filter);
+        return customerService.getBankingOperationsByUser(user, filter);
+    }
+
+    @GetMapping(value = "service-operations", produces = "application/json")
+    public List<BankServiceOperation> getServiceOperations(@RequestBody OperationFilter filter) {
+        User user = authenticationService.getPrincipal().getUser();
+        return customerService.getServiceOperationsByUser(user, filter);
     }
 
     @GetMapping(value = "bank-accounts", produces = "application/json")

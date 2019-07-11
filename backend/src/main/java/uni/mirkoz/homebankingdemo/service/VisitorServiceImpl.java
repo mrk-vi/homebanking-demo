@@ -57,7 +57,7 @@ public class VisitorServiceImpl implements VisitorService {
     }
 
     @Override
-    public void sendRegistrationRequest(Customer registrationRequest, Integer bankBranchId) {
+    public Customer sendRegistrationRequest(Customer registrationRequest, Integer bankBranchId) {
         try{
             User user = userRepository.findByUsername(registrationRequest.getUser().getUsername()).get();
             registrationRequest.setUser(user);
@@ -72,7 +72,7 @@ public class VisitorServiceImpl implements VisitorService {
         registrationRequest.setStatus(Status.UNAUTHORIZED);
         BankBranch bankBranch = bankBranchRepository.findById(bankBranchId).get();
         registrationRequest.setBankBranch(bankBranch);
-        customerRepository.save(registrationRequest);
+        return customerRepository.save(registrationRequest);
     }
 }
 

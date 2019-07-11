@@ -1,11 +1,16 @@
 package uni.mirkoz.homebankingdemo.service;
 
 import org.springframework.stereotype.Component;
+import uni.mirkoz.homebankingdemo.model.accounts.BankAccount;
 import uni.mirkoz.homebankingdemo.model.banks.Bank;
+import uni.mirkoz.homebankingdemo.model.banks.BankBranch;
+import uni.mirkoz.homebankingdemo.model.banks.BankProduct;
 import uni.mirkoz.homebankingdemo.model.users.BankManager;
 import uni.mirkoz.homebankingdemo.model.users.Customer;
 import uni.mirkoz.homebankingdemo.model.users.Status;
 import uni.mirkoz.homebankingdemo.model.users.User;
+import uni.mirkoz.homebankingdemo.repository.accounts.BankAccountRepository;
+import uni.mirkoz.homebankingdemo.repository.banks.BankProductRepository;
 import uni.mirkoz.homebankingdemo.repository.banks.BankRepository;
 import uni.mirkoz.homebankingdemo.repository.users.BankManagerRepository;
 import uni.mirkoz.homebankingdemo.repository.users.CustomerRepository;
@@ -20,14 +25,16 @@ public class AdministratorServiceImpl implements AdministratorService {
 
     private BankRepository bankRepository;
     private BankManagerRepository bankManagerRepository;
-    private UserRepository userRepository;
     private CustomerRepository customerRepository;
+    private BankProductRepository bankProductRepository;
+    private BankAccountRepository bankAccountRepository;
 
-    public AdministratorServiceImpl(BankRepository bankRepository, BankManagerRepository bankManagerRepository, UserRepository userRepository, CustomerRepository customerRepository) {
+    public AdministratorServiceImpl(BankRepository bankRepository, BankManagerRepository bankManagerRepository, CustomerRepository customerRepository, BankProductRepository bankProductRepository, BankAccountRepository bankAccountRepository) {
         this.bankRepository = bankRepository;
         this.bankManagerRepository = bankManagerRepository;
-        this.userRepository = userRepository;
         this.customerRepository = customerRepository;
+        this.bankProductRepository = bankProductRepository;
+        this.bankAccountRepository = bankAccountRepository;
     }
 
     @Override
@@ -80,7 +87,6 @@ public class AdministratorServiceImpl implements AdministratorService {
     @Override
     public List<Bank> getBanks() {
         return bankRepository.findAll();
-
     }
 
     @Override
@@ -102,11 +108,28 @@ public class AdministratorServiceImpl implements AdministratorService {
     public Customer authorizeCustomer(Integer customerId) {
         Customer customer = customerRepository.findById(customerId).get();
         User user = customer.getUser();
+        BankBranch bankBranch = customer.getBankBranch();
+        Bank bank = bankBranch.getBank();
+        List<BankProduct> products = bankProductRepository.findBankProductByBank(bank);
+        List<BankAccount> bankAccounts = new ArrayList<>();
         if (user.getStatus() == Status.UNAUTHORIZED) {
             user.setStatus(Status.ENABLED);
             customer.setUser(user);
         }
         customer.setStatus(Status.AUTHORIZED);
+        customer = customerRepository.save(customer);
+        for (BankProduct p: products){
+            BankAccount bankAccount = BankAccount.builder()
+                    .bankProduct(p)
+                    .customer(customer)
+                    // TODO Generate an Iban
+                    .iban(String.format("IT000000%d%d",p.getId(),customer.getId()))
+                    .balance( (float) 0 )
+                    .build();
+            bankAccounts.add(bankAccountRepository.save(bankAccount));
+        }
+        //customer.setBankAccounts(bankAccounts);
         return customerRepository.save(customer);
+
     }
 }
