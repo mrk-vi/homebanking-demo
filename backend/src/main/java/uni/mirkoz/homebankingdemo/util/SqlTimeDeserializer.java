@@ -1,4 +1,4 @@
-package uni.mirkoz.homebankingdemo.model.banks;
+package uni.mirkoz.homebankingdemo.util;
 
 import java.io.IOException;
 import java.sql.Time;

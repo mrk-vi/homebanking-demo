@@ -1,9 +1,11 @@
 package uni.mirkoz.homebankingdemo.security;
 
 import org.springframework.security.core.userdetails.UserDetails;
-import uni.mirkoz.homebankingdemo.model.users.*;
+import uni.mirkoz.homebankingdemo.model.users.Administrator;
+import uni.mirkoz.homebankingdemo.model.users.BankManager;
+import uni.mirkoz.homebankingdemo.model.users.Employee;
+import uni.mirkoz.homebankingdemo.model.users.User;
 
-import java.util.List;
 import java.util.Optional;
 
 public interface HomeBankingUserDetails extends UserDetails {
