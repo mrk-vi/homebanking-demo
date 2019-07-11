@@ -27,8 +27,8 @@ public class HomeBankingUserPrincipal implements HomeBankingUserDetails {
             authorities.add( new SimpleGrantedAuthority("manager") );
         if (getEmployee().isPresent())
             authorities.add( new SimpleGrantedAuthority("employee") );
-        if (getCustomers().isPresent() && ! getCustomers().get().isEmpty())
-            authorities.add( new SimpleGrantedAuthority("customer") );
+//        if (getCustomers().isPresent() && ! getCustomers().get().isEmpty())
+//            authorities.add( new SimpleGrantedAuthority("customer") );
         return authorities;
     }
 
@@ -78,7 +78,12 @@ public class HomeBankingUserPrincipal implements HomeBankingUserDetails {
     }
 
     @Override
-    public Optional<List<Customer>> getCustomers() {
-        return Optional.ofNullable(user.getCustomers());
+    public User getUser() {
+        return this.user;
     }
+//
+//    @Override
+//    public Optional<List<Customer>> getCustomers() {
+//        return Optional.ofNullable(user.getCustomers());
+//    }
 }

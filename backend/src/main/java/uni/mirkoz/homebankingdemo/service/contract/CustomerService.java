@@ -2,22 +2,26 @@ package uni.mirkoz.homebankingdemo.service.contract;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import uni.mirkoz.homebankingdemo.model.accounts.BankAccount;
-import uni.mirkoz.homebankingdemo.model.accounts.BankServiceOperation;
-import uni.mirkoz.homebankingdemo.model.accounts.BankingOperation;
+import uni.mirkoz.homebankingdemo.controller.ws.customer.form.OperationFilterForm;
+import uni.mirkoz.homebankingdemo.model.accounts.*;
+import uni.mirkoz.homebankingdemo.model.users.User;
+
+import java.util.List;
 
 @Service@Transactional
 public interface CustomerService {
 
-    BankingOperation deposit(BankAccount bankAccount, BankingOperation bankingOperation);
+    List<Operation> getOperationsByUser(User user, OperationFilterForm filter);
 
-    BankingOperation whithdraw(BankAccount bankAccount, BankingOperation bankingOperation);
+    List<BankAccount> getBankAccountsByUser(User user);
 
-    BankingOperation transfer(BankAccount bankAccount, BankingOperation bankingOperation);
+    BankingOperation makeDeposit(User user, Integer bankAccountId, Float amount);
 
-    BankServiceOperation refill(BankAccount bankAccount, BankServiceOperation bankServiceOperation);
+    BankingOperation makeWithdraw(User user, Integer bankAccountId, Float amount);
 
-    BankServiceOperation carTax(BankAccount bankAccount, BankServiceOperation bankServiceOperation);
+    BankingOperation makeTransfer(User user, Integer bankAccountId, Float amount, String recipientIban);
 
-    //TODO Informative operations
+    BankServiceOperation refill(User user, Integer bankAccountId, Float amount, String phoneNumber);
+
+    BankServiceOperation carTax(User user, Integer bankAccountId, Float amount, String licensePlate);
 }

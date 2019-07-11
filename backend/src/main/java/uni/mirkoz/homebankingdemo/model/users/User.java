@@ -49,8 +49,8 @@ public class User {
     @OneToOne(mappedBy = "user")
     private Employee employee;
 
-    @JsonIgnore
-    @OneToMany(mappedBy = "user", fetch = FetchType.EAGER)
-    private List<Customer> customers;
+//    @JsonIgnore
+//    @OneToMany(mappedBy = "user", fetch = FetchType.EAGER)
+//    private List<Customer> customers;
 
 }
