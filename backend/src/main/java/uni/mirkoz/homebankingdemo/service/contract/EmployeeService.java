@@ -3,16 +3,19 @@ package uni.mirkoz.homebankingdemo.service.contract;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import uni.mirkoz.homebankingdemo.model.accounts.BankingOperation;
-import uni.mirkoz.homebankingdemo.controller.ws.customer.form.OperationFilterForm;
+import uni.mirkoz.homebankingdemo.model.accounts.OperationFilter;
+import uni.mirkoz.homebankingdemo.model.users.Employee;
 
+import java.util.List;
 import java.util.stream.Stream;
 
 @Service@Transactional
 public interface EmployeeService {
 
-    BankingOperation authorizeBankingOperation(BankingOperation bankingOperation);
+    List<BankingOperation> getBankingOperations(Employee employee, OperationFilter operationFilter);
 
-    BankingOperation negateBankingOperation(BankingOperation bankingOperation);
+    BankingOperation authorizeBankingOperation(Employee employee, Integer id);
 
-    Stream<BankingOperation> exportBankingOperations(OperationFilterForm operationFilterForm);
+    BankingOperation negateBankingOperation(Employee employee, Integer id);
 }
+
