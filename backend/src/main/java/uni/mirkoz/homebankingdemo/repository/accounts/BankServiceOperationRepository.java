@@ -6,6 +6,6 @@ import uni.mirkoz.homebankingdemo.model.users.User;
 
 import java.util.List;
 
-public interface ServiceOperationRepository extends JpaRepository<BankServiceOperation, Integer> {
+public interface BankServiceOperationRepository extends JpaRepository<BankServiceOperation, Integer> {
     List<BankServiceOperation> findByBankAccount_Customer_User(User user);
 }
