@@ -1,6 +1,7 @@
 package uni.mirkoz.homebankingdemo.model.accounts;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -23,6 +24,7 @@ public class BankAccount {
     private Integer id;
 
     @ManyToOne
+    @JsonIgnore
     private Customer customer;
 
     @ManyToOne

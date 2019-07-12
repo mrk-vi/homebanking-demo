@@ -17,7 +17,7 @@ import java.util.List;
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
-@ToString(exclude = {"bank"})
+@ToString(exclude = {"bank", "images"})
 public class BankBranch {
 
     @Id
@@ -46,13 +46,13 @@ public class BankBranch {
     @ApiModelProperty(dataType = "java.lang.String", example = "19:00")
     private Time closing;
 
-    @OneToMany(mappedBy = "bankBranch", fetch = FetchType.LAZY)
-    @JsonBackReference
-    private List<Employee> employees;
-
-    @OneToMany(mappedBy = "bankBranch", fetch = FetchType.LAZY)
-    @JsonBackReference
-    private List<Customer> customers;
+//    @OneToMany(mappedBy = "bankBranch", fetch = FetchType.LAZY)
+//    @JsonBackReference
+//    private List<Employee> employees;
+//
+//    @OneToMany(mappedBy = "bankBranch", fetch = FetchType.LAZY)
+//    @JsonBackReference
+//    private List<Customer> customers;
 
     @OneToMany(mappedBy = "bankBranch", fetch = FetchType.LAZY)
     @JsonBackReference

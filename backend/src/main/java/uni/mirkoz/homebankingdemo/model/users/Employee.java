@@ -13,7 +13,7 @@ import java.util.List;
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
-@ToString(exclude = {"user"})
+@ToString(exclude = {"user", "bankBranch"})
 public class Employee {
 
     @Id@GeneratedValue(strategy = GenerationType.AUTO)
@@ -22,9 +22,9 @@ public class Employee {
     @ManyToOne(optional = false)
     private BankBranch bankBranch;
 
-    @OneToMany(mappedBy = "employee")
-    @JsonBackReference
-    private List<BankingOperation> bankingOperations;
+//    @OneToMany(mappedBy = "employee")
+//    @JsonBackReference
+//    private List<BankingOperation> bankingOperations;
 
     @OneToOne(optional = false, cascade = CascadeType.ALL)
     @JoinColumn(name = "user_id")
