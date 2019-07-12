@@ -1,12 +1,12 @@
 package uni.mirkoz.homebankingdemo.service;
 
 import org.springframework.stereotype.Component;
-import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 import uni.mirkoz.homebankingdemo.model.accounts.*;
 import uni.mirkoz.homebankingdemo.model.banks.BankBranch;
 import uni.mirkoz.homebankingdemo.model.users.Employee;
 import uni.mirkoz.homebankingdemo.repository.accounts.BankAccountRepository;
 import uni.mirkoz.homebankingdemo.repository.accounts.BankingOperationRepository;
+import uni.mirkoz.homebankingdemo.repository.accounts.BankingOperationSpecs;
 import uni.mirkoz.homebankingdemo.service.contract.EmployeeService;
 
 import java.util.List;
@@ -26,7 +26,7 @@ public class EmployeeServiceImpl implements EmployeeService {
     public List<BankingOperation> getBankingOperations(Employee employee, OperationFilter operationFilter) {
 
         BankBranch bankBranch = employee.getBankBranch();
-        return bankingOperationRepository.findByBankAccount_Customer_BankBranch(bankBranch);
+        return bankingOperationRepository.findAll(BankingOperationSpecs.filterOperationsByBankBranch(bankBranch, operationFilter));
     }
 
     @Override

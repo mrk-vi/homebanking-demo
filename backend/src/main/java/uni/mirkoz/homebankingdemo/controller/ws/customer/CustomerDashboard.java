@@ -25,7 +25,7 @@ public class CustomerDashboard {
         this.customerService = customerService;
     }
 
-    @GetMapping(value = "banking-operations", produces = "application/json")
+    @GetMapping(value = "banking-operations", produces = "application/json", consumes = "application/json")
     public List<BankingOperation> getBankingOperations(@RequestBody OperationFilter filter) {
         User user = authenticationService.getPrincipal().getUser();
         return customerService.getBankingOperationsByUser(user, filter);

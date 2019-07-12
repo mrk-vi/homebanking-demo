@@ -6,7 +6,8 @@ import uni.mirkoz.homebankingdemo.model.accounts.*;
 import uni.mirkoz.homebankingdemo.model.users.User;
 import uni.mirkoz.homebankingdemo.repository.accounts.BankAccountRepository;
 import uni.mirkoz.homebankingdemo.repository.accounts.BankingOperationRepository;
-import uni.mirkoz.homebankingdemo.repository.accounts.ServiceOperationRepository;
+import uni.mirkoz.homebankingdemo.repository.accounts.BankServiceOperationRepository;
+import uni.mirkoz.homebankingdemo.repository.accounts.BankingOperationSpecs;
 import uni.mirkoz.homebankingdemo.service.contract.CustomerService;
 
 import java.util.List;
@@ -16,22 +17,22 @@ public class CustomerServiceImpl implements CustomerService {
 
     private BankAccountRepository bankAccountRepository;
     private BankingOperationRepository bankingOperationRepository;
-    private ServiceOperationRepository serviceOperationRepository;
+    private BankServiceOperationRepository bankServiceOperationRepository;
 
-    public CustomerServiceImpl(BankAccountRepository bankAccountRepository, BankingOperationRepository bankingOperationRepository, ServiceOperationRepository serviceOperationRepository) {
+    public CustomerServiceImpl(BankAccountRepository bankAccountRepository, BankingOperationRepository bankingOperationRepository, BankServiceOperationRepository bankServiceOperationRepository) {
         this.bankAccountRepository = bankAccountRepository;
         this.bankingOperationRepository = bankingOperationRepository;
-        this.serviceOperationRepository = serviceOperationRepository;
+        this.bankServiceOperationRepository = bankServiceOperationRepository;
     }
 
     @Override
     public List<BankingOperation> getBankingOperationsByUser(User user, OperationFilter filter) {
-        return bankingOperationRepository.findByBankAccount_Customer_User(user);
+        return bankingOperationRepository.findAll(BankingOperationSpecs.filterOperationsByUser(user, filter));
     }
 
     @Override
     public List<BankServiceOperation> getServiceOperationsByUser(User user, OperationFilter filter) {
-        return serviceOperationRepository.findByBankAccount_Customer_User(user);
+        return bankServiceOperationRepository.findByBankAccount_Customer_User(user);
     }
 
     @Override
