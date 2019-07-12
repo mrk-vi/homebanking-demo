@@ -3,14 +3,19 @@ package uni.mirkoz.homebankingdemo.service;
 import org.springframework.stereotype.Component;
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 import uni.mirkoz.homebankingdemo.model.accounts.*;
+import uni.mirkoz.homebankingdemo.model.banks.Bank;
+import uni.mirkoz.homebankingdemo.model.banks.BankService;
 import uni.mirkoz.homebankingdemo.model.users.User;
 import uni.mirkoz.homebankingdemo.repository.accounts.BankAccountRepository;
 import uni.mirkoz.homebankingdemo.repository.accounts.BankingOperationRepository;
 import uni.mirkoz.homebankingdemo.repository.accounts.BankServiceOperationRepository;
 import uni.mirkoz.homebankingdemo.repository.accounts.BankingOperationSpecs;
+import uni.mirkoz.homebankingdemo.repository.banks.BankProductRepository;
+import uni.mirkoz.homebankingdemo.repository.banks.BankServiceRepository;
 import uni.mirkoz.homebankingdemo.service.contract.CustomerService;
 
 import java.util.List;
+import java.util.NoSuchElementException;
 
 @Component
 public class CustomerServiceImpl implements CustomerService {
@@ -18,11 +23,13 @@ public class CustomerServiceImpl implements CustomerService {
     private BankAccountRepository bankAccountRepository;
     private BankingOperationRepository bankingOperationRepository;
     private BankServiceOperationRepository bankServiceOperationRepository;
+    private BankServiceRepository bankServiceRepository;
 
-    public CustomerServiceImpl(BankAccountRepository bankAccountRepository, BankingOperationRepository bankingOperationRepository, BankServiceOperationRepository bankServiceOperationRepository) {
+    public CustomerServiceImpl(BankAccountRepository bankAccountRepository, BankingOperationRepository bankingOperationRepository, BankServiceOperationRepository bankServiceOperationRepository, BankServiceRepository bankServiceRepository) {
         this.bankAccountRepository = bankAccountRepository;
         this.bankingOperationRepository = bankingOperationRepository;
         this.bankServiceOperationRepository = bankServiceOperationRepository;
+        this.bankServiceRepository = bankServiceRepository;
     }
 
     @Override
@@ -85,11 +92,47 @@ public class CustomerServiceImpl implements CustomerService {
 
     @Override
     public BankServiceOperation refill(User user, Integer bankAccountId, Float amount, String phoneNumber) {
-        throw new NotImplementedException();
+        BankAccount bankAccount = bankAccountRepository.findBankAccountsByIdAndCustomer_User(bankAccountId, user);
+        Bank bank = bankAccount.getCustomer().getBankBranch().getBank();
+        BankService bankService;
+        try{
+           bankService = bankServiceRepository.findByBankAndType(bank, BankService.Type.REFILL);
+        } catch (NoSuchElementException nse){
+           throw new NoSuchElementException();
+        }
+
+        BankServiceOperation operation  = new BankServiceOperation();
+        operation.setBankAccount(bankAccount);
+        operation.setAmount(amount);
+        operation.setOperationType(OperationType.REFILL);
+        operation.setOperationState(OperationState.AUTHORIZED);
+        operation.setBankService(bankService);
+
+        bankAccount.setBalance(bankAccount.getBalance()-operation.getAmount());
+        bankAccountRepository.save(bankAccount);
+        return bankServiceOperationRepository.save(operation);
     }
 
     @Override
     public BankServiceOperation carTax(User user, Integer bankAccountId, Float amount, String licensePlate) {
-        throw new NotImplementedException();
+        BankAccount bankAccount = bankAccountRepository.findBankAccountsByIdAndCustomer_User(bankAccountId, user);
+        Bank bank = bankAccount.getCustomer().getBankBranch().getBank();
+        BankService bankService;
+        try{
+            bankService = bankServiceRepository.findByBankAndType(bank, BankService.Type.CAR_TAX);
+        } catch (NoSuchElementException nse){
+            throw new NoSuchElementException();
+        }
+
+        BankServiceOperation operation  = new BankServiceOperation();
+        operation.setBankAccount(bankAccount);
+        operation.setAmount(amount);
+        operation.setOperationType(OperationType.CAR_TAX);
+        operation.setOperationState(OperationState.AUTHORIZED);
+        operation.setBankService(bankService);
+
+        bankAccount.setBalance(bankAccount.getBalance()-operation.getAmount());
+        bankAccountRepository.save(bankAccount);
+        return bankServiceOperationRepository.save(operation);
     }
 }
