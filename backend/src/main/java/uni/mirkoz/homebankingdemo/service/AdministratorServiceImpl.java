@@ -106,29 +106,32 @@ public class AdministratorServiceImpl implements AdministratorService {
 
     @Override
     public Customer authorizeCustomer(Integer customerId) {
+
         Customer customer = customerRepository.findById(customerId).get();
         User user = customer.getUser();
         BankBranch bankBranch = customer.getBankBranch();
+
         Bank bank = bankBranch.getBank();
-        List<BankProduct> products = bankProductRepository.findBankProductByBank(bank);
+        List<BankProduct> products = bankProductRepository.findByBank(bank);
         List<BankAccount> bankAccounts = new ArrayList<>();
+
         if (user.getStatus() == Status.UNAUTHORIZED) {
             user.setStatus(Status.ENABLED);
             customer.setUser(user);
         }
+
         customer.setStatus(Status.AUTHORIZED);
         customer = customerRepository.save(customer);
+
         for (BankProduct p: products){
-            BankAccount bankAccount = BankAccount.builder()
+            bankAccountRepository.save(BankAccount.builder()
                     .bankProduct(p)
                     .customer(customer)
                     // TODO Generate an Iban
                     .iban(String.format("IT000000%d%d",p.getId(),customer.getId()))
                     .balance( (float) 0 )
-                    .build();
-            bankAccounts.add(bankAccountRepository.save(bankAccount));
+                    .build());
         }
-        //customer.setBankAccounts(bankAccounts);
         return customerRepository.save(customer);
 
     }
