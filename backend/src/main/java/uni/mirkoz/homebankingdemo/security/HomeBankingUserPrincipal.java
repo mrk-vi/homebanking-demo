@@ -21,12 +21,15 @@ public class HomeBankingUserPrincipal implements HomeBankingUserDetails {
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         List<SimpleGrantedAuthority> authorities = new ArrayList<>();
+
+        authorities.add(new SimpleGrantedAuthority(Authority.USER.name()));
+
         if (getAdministrator().isPresent())
-            authorities.add( new SimpleGrantedAuthority("admin") );
+            authorities.add( new SimpleGrantedAuthority(Authority.ADMIN.name()) );
         if (getBankManager().isPresent())
-            authorities.add( new SimpleGrantedAuthority("manager") );
+            authorities.add( new SimpleGrantedAuthority(Authority.MANAGER.name()) );
         if (getEmployee().isPresent())
-            authorities.add( new SimpleGrantedAuthority("employee") );
+            authorities.add( new SimpleGrantedAuthority(Authority.EMPLOYEE.name()) );
 //        if (getCustomers().isPresent() && ! getCustomers().get().isEmpty())
 //            authorities.add( new SimpleGrantedAuthority("customer") );
         return authorities;

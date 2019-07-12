@@ -10,6 +10,7 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import uni.mirkoz.homebankingdemo.security.Authority;
 import uni.mirkoz.homebankingdemo.security.HomeBankingUserDetailsService;
 
 @Configuration
@@ -42,10 +43,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .httpBasic()
                 .and()
                 .authorizeRequests()
-                .antMatchers("/customer/**").authenticated()
-                .antMatchers("/admin/**").hasAuthority("admin")
-                .antMatchers("/manager/**").hasAuthority("manager")
-                .antMatchers("/employee/**").hasAuthority("employee")
+                .antMatchers("/customer/**").hasAuthority(Authority.USER.name())
+                .antMatchers("/admin/**").hasAuthority(Authority.ADMIN.name())
+                .antMatchers("/manager/**").hasAnyAuthority(Authority.MANAGER.name())
+                .antMatchers("/employee/**").hasAuthority(Authority.EMPLOYEE.name())
                 .and()
                 .csrf().disable()
                 .formLogin().disable()
