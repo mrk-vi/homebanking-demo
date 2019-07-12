@@ -51,6 +51,22 @@ public class Database {
                                         .build())
                                 .build()
                 );
+                bankManagerService.createBankService(bank,
+                        BankService.builder()
+                                .type(BankService.Type.CAR_TAX)
+                                .build());
+                bankManagerService.createBankProduct(bank,
+                        BankProduct.builder()
+                                .type(BankProduct.Type.ACCT)
+                                .name("Default ACCT "+i)
+                                .interestRate(Float.valueOf("0.25"))
+                                .build());
+                bankManagerService.createBankProduct(bank,
+                        BankProduct.builder()
+                                .type(BankProduct.Type.PREPAID)
+                                .name("Default PREPAID "+i)
+                                .interestRate(Float.valueOf("0.0"))
+                                .build());
                 for (int j = 0; j < 2; j++) {
                     BankBranch bankBranch = bankManagerService.createBankBranch(
                             bank,
@@ -77,29 +93,13 @@ public class Database {
                                     .user(User.builder()
                                             .mail("customer"+i+""+j+"@localhost.com")
                                             .username("customer"+i+""+j)
-                                            .password(encoder.encode("password"))
+                                            .password("password")
                                             .build())
                                     .build(),
                             bankBranch.getId()
                     );
                     administratorService.authorizeCustomer(customer.getId());
                 }
-                bankManagerService.createBankService(bank,
-                        BankService.builder()
-                                .type(BankService.Type.CAR_TAX)
-                                .build());
-                bankManagerService.createBankProduct(bank,
-                        BankProduct.builder()
-                                .type(BankProduct.Type.ACCT)
-                                .name("Defaul ACCT "+i)
-                                .interestRate(Float.valueOf("0.25"))
-                                .build());
-                bankManagerService.createBankProduct(bank,
-                        BankProduct.builder()
-                                .type(BankProduct.Type.PREPAID)
-                                .name("Defaul PREPAID "+i)
-                                .interestRate(Float.valueOf("0.0"))
-                                .build());
             }
         };
     }
