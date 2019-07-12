@@ -71,9 +71,8 @@ public class BankManagerServiceImpl implements BankManagerService {
 
     @Override
     public List<BankBranch> getBankBranches(Integer id) {
-        return getBankManager(id)
-                .getBank()
-                .getBankBranches();
+        Bank bank = getBankManager(id).getBank();
+        return bankBranchRepository.findByBank(bank);
     }
 
     @Override
@@ -84,16 +83,14 @@ public class BankManagerServiceImpl implements BankManagerService {
 
     @Override
     public List<BankProduct> getBankProducts(Integer id) {
-        return getBankManager(id)
-                .getBank()
-                .getBankProducts();
+        Bank bank = getBankManager(id).getBank();
+        return bankProductRepository.findByBank(bank);
     }
 
     @Override
     public List<BankService> getBankServices(Integer id) {
-        return getBankManager(id)
-                .getBank()
-                .getBankServices();
+        Bank bank = getBankManager(id).getBank();
+        return bankServiceRepository.findByBank(bank);
     }
 
     @Override

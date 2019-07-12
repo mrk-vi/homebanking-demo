@@ -8,5 +8,7 @@ import java.util.List;
 
 public interface BankProductRepository extends JpaRepository<BankProduct, Integer> {
 
-    List<BankProduct> findBankProductByBank(Bank bank);
+    List<BankProduct> findByBank(Bank bank);
+
+    List<BankProduct> findByBank_id(Integer bankId);
 }
