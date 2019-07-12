@@ -2,6 +2,7 @@ package uni.mirkoz.homebankingdemo.repository.accounts;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import uni.mirkoz.homebankingdemo.model.accounts.BankAccount;
+import uni.mirkoz.homebankingdemo.model.accounts.BankingOperation;
 import uni.mirkoz.homebankingdemo.model.users.Customer;
 import uni.mirkoz.homebankingdemo.model.users.User;
 
@@ -12,4 +13,5 @@ public interface BankAccountRepository extends JpaRepository<BankAccount, Intege
     List<BankAccount> findBankAccountsByCustomer_User(User user);
     BankAccount findBankAccountsByIdAndCustomer_User(Integer id, User user);
     BankAccount findBankAccountsByIban(String iban);
+    BankAccount findByBankingOperationsContains(BankingOperation bankingOperation);
 }
