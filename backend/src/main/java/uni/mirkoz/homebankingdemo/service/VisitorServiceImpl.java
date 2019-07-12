@@ -42,13 +42,13 @@ public class VisitorServiceImpl implements VisitorService {
     }
 
     @Override
-    public List<BankService> getServices() {
-        return bankServiceRepository.findAll();
+    public List<BankService> getServices(Integer bankId) {
+        return bankServiceRepository.findByBank_Id(bankId);
     }
 
     @Override
-    public List<BankProduct> getProducts() {
-        return bankProductRepository.findAll();
+    public List<BankProduct> getProducts(Integer bankId) {
+        return bankProductRepository.findByBank_id(bankId);
     }
 
     @Override
@@ -62,7 +62,6 @@ public class VisitorServiceImpl implements VisitorService {
             User user = userRepository.findByUsername(registrationRequest.getUser().getUsername()).get();
             registrationRequest.setUser(user);
         } catch (NoSuchElementException nsee) {
-            registrationRequest.getUser().getPassword();
             User newUser = registrationRequest.getUser();
             String encoded = encoder.encode(newUser.getPassword());
             newUser.setPassword(encoded);

@@ -29,14 +29,14 @@ public class VisitorController {
         return visitorService.getBanks();
     }
 
-    @GetMapping(value = "bank-products", produces = "application/json")
-    public List<BankProduct> getBankProducts() {
-        return visitorService.getProducts();
+    @GetMapping(value = "bank/{id}/bank-products", produces = "application/json")
+    public List<BankProduct> getBankProducts(@PathVariable Integer id) {
+        return visitorService.getProducts(id);
     }
 
-    @GetMapping(value = "bank-services", produces = "application/json")
-    public List<BankService> getBankService() {
-        return visitorService.getServices();
+    @GetMapping(value = "bank/{id}/bank-services", produces = "application/json")
+    public List<BankService> getBankService(@PathVariable Integer id) {
+        return visitorService.getServices(id);
     }
 
     @PostMapping(value = "registration-request")

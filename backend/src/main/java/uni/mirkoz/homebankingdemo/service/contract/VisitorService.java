@@ -10,9 +10,9 @@ import java.util.List;
 @Service@Transactional
 public interface VisitorService {
 
-    List<BankService> getServices();
+    List<BankService> getServices(Integer bankId);
 
-    List<BankProduct> getProducts();
+    List<BankProduct> getProducts(Integer bankId);
 
     List<Bank> getBanks();
 
