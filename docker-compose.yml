@@ -12,7 +12,7 @@ services:
       DB_URL: "jdbc:mysql://db:3306/pps-home-banking"
       DB_USER: "pps-home-banking"
       DB_PASS: "pps1234"
-      DB_DIALECT: "MySQLDialect"
+      DB_DIALECT: "org.hibernate.dialect.MySQL5InnoDBDialect"
       DB_CONSOLE: "false"
   frontend:
     container_name: frontend
