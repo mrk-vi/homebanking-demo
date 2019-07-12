@@ -7,7 +7,6 @@ import uni.mirkoz.homebankingdemo.model.accounts.OperationFilter;
 import uni.mirkoz.homebankingdemo.model.users.Employee;
 
 import java.util.List;
-import java.util.stream.Stream;
 
 @Service@Transactional
 public interface EmployeeService {
@@ -16,6 +15,6 @@ public interface EmployeeService {
 
     BankingOperation authorizeBankingOperation(Employee employee, Integer id);
 
-    BankingOperation negateBankingOperation(Employee employee, Integer id);
+    BankingOperation negateBankingOperation(Employee employee, Integer bankOperationId);
 }
 

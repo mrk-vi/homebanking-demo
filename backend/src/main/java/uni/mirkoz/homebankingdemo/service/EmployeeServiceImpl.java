@@ -38,35 +38,57 @@ public class EmployeeServiceImpl implements EmployeeService {
                 OperationState.OPEN,
                 bankBranch
         );
-        float amount = operation.getAmount();
+        float amount;
+
+        try {
+            amount = operation.getAmount();
+        } catch (Exception e) {
+            throw new IllegalArgumentException();
+        }
+
         if (operation.getOperationType() != OperationType.TRANSFER) {
 //        IF DEPOSIT OR WITHDRAW
 //        -----------------------
             BankAccount bankAccount = bankAccountRepository.findByBankingOperationsContains(operation);
-            float balance = 0;
+            float balance;
             try {
                 balance = bankAccount.getBalance();
-            } catch (NullPointerException npe) {
+            } catch (Exception e) {
+                throw new IllegalArgumentException();
             }
             bankAccount.setBalance(balance + amount);
-        }
-//
+        } else {
 //        IF TRANSFER
 //        -----------------------
-//        BankAccount recipient = bankAccountRepository.findBankAccountsByIban(recipientIban);
-//        float senderBalance = 0;
-//        float recipientBalance = 0;
-//        try {
-//            senderBalance = sender.getBalance();
-//            recipientBalance = recipient.getBalance();
-//        } catch (NullPointerException npe) {}
-//        sender.setBalance(senderBalance-amount);
-//        recipient.setBalance(recipientBalance+amount);
-        throw new NotImplementedException();
+            String recipientIban = operation.getRecipientIban();
+            BankAccount sender = bankAccountRepository.findByBankingOperationsContains(operation);
+            BankAccount recipient = bankAccountRepository.findBankAccountsByIban(recipientIban);
+            float senderBalance, recipientBalance;
+            try {
+                senderBalance = sender.getBalance();
+                recipientBalance = recipient.getBalance();
+            } catch (Exception e) {
+                throw new IllegalArgumentException();
+            }
+            sender.setBalance(senderBalance-amount);
+            recipient.setBalance(recipientBalance+amount);
+            }
+        operation.setOperationState(OperationState.AUTHORIZED);
+        operation.setEmployee(employee);
+        return bankingOperationRepository.save(operation);
     }
 
     @Override
-    public BankingOperation negateBankingOperation(Employee employee, Integer id) {
-        throw new NotImplementedException();
+    public BankingOperation negateBankingOperation(Employee employee, Integer bankOperationId) {
+
+        BankBranch bankBranch = employee.getBankBranch();
+        BankingOperation operation = bankingOperationRepository.findByIdAndOperationStateAndBankAccount_Customer_BankBranch(
+                bankOperationId,
+                OperationState.OPEN,
+                bankBranch
+        );
+        operation.setOperationState(OperationState.REJECTED);
+        operation.setEmployee(employee);
+        return bankingOperationRepository.save(operation);
     }
 }
