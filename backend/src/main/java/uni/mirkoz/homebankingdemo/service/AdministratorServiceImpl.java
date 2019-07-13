@@ -1,5 +1,8 @@
 package uni.mirkoz.homebankingdemo.service;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 import uni.mirkoz.homebankingdemo.model.accounts.BankAccount;
 import uni.mirkoz.homebankingdemo.model.banks.Bank;
@@ -14,27 +17,35 @@ import uni.mirkoz.homebankingdemo.repository.banks.BankProductRepository;
 import uni.mirkoz.homebankingdemo.repository.banks.BankRepository;
 import uni.mirkoz.homebankingdemo.repository.users.BankManagerRepository;
 import uni.mirkoz.homebankingdemo.repository.users.CustomerRepository;
-import uni.mirkoz.homebankingdemo.repository.users.UserRepository;
 import uni.mirkoz.homebankingdemo.service.contract.AdministratorService;
+import uni.mirkoz.homebankingdemo.util.PasswordGenerator;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.NoSuchElementException;
 
 
 @Component
 public class AdministratorServiceImpl implements AdministratorService {
+
+    private Logger logger = LoggerFactory.getLogger(AdministratorServiceImpl.class);
 
     private BankRepository bankRepository;
     private BankManagerRepository bankManagerRepository;
     private CustomerRepository customerRepository;
     private BankProductRepository bankProductRepository;
     private BankAccountRepository bankAccountRepository;
+    private PasswordGenerator passwordGenerator;
+    private PasswordEncoder passwordEncoder;
 
-    public AdministratorServiceImpl(BankRepository bankRepository, BankManagerRepository bankManagerRepository, CustomerRepository customerRepository, BankProductRepository bankProductRepository, BankAccountRepository bankAccountRepository) {
+    public AdministratorServiceImpl(BankRepository bankRepository, BankManagerRepository bankManagerRepository, CustomerRepository customerRepository, BankProductRepository bankProductRepository, BankAccountRepository bankAccountRepository, PasswordGenerator passwordGenerator, PasswordEncoder passwordEncoder) {
         this.bankRepository = bankRepository;
         this.bankManagerRepository = bankManagerRepository;
         this.customerRepository = customerRepository;
         this.bankProductRepository = bankProductRepository;
         this.bankAccountRepository = bankAccountRepository;
+        this.passwordGenerator = passwordGenerator;
+        this.passwordEncoder = passwordEncoder;
     }
 
     @Override
@@ -63,21 +74,25 @@ public class AdministratorServiceImpl implements AdministratorService {
 
     @Override
     public Bank saveBank(Bank bank, BankManager bankManager) {
-        boolean isBankManager = true;
+        boolean hasBankManager = true;
         try {
             User user = bankManager.getUser();
             if (!user.getMail().isEmpty() && !user.getUsername().isEmpty()) {
-                // TODO generate a password
+                String password = passwordGenerator.newPassword();
+                user.setPassword(passwordEncoder.encode(password));
+                user.setStatus(Status.ENABLED);
                 bankManager.setStatus(Status.AUTHORIZED);
                 bankManager = bankManagerRepository.save(bankManager);
+                logger.info(String.format("[new bankmanager credentials in clear] - username: %s - password %s",
+                        user.getUsername(), password));
             } else {
-                isBankManager = false;
+                hasBankManager = false;
             }
         } catch (NullPointerException npe) {
-            isBankManager = false;
+            hasBankManager = false;
         }
         bank = bankRepository.save(bank);
-        if (isBankManager) {
+        if (hasBankManager) {
             bankManager.setBank(bank);
             bankManagerRepository.save(bankManager);
         }

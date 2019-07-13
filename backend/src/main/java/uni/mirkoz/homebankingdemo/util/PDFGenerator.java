@@ -12,7 +12,7 @@ import java.util.stream.Stream;
 
 public class PDFGenerator {
 
-    public static byte[] customerPDFReport(List<BankingOperation> bankingOperations) {
+    public static byte[] bankingOperationPDFReport(List<BankingOperation> bankingOperations) {
         Document document = new Document();
         ByteArrayOutputStream out = new ByteArrayOutputStream();
 

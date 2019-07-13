@@ -1,7 +1,9 @@
 package uni.mirkoz.homebankingdemo.service;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
-import org.springframework.transaction.annotation.Transactional;
 import uni.mirkoz.homebankingdemo.model.banks.Bank;
 import uni.mirkoz.homebankingdemo.model.banks.BankBranch;
 import uni.mirkoz.homebankingdemo.model.banks.BankProduct;
@@ -9,33 +11,38 @@ import uni.mirkoz.homebankingdemo.model.banks.BankService;
 import uni.mirkoz.homebankingdemo.model.users.BankManager;
 import uni.mirkoz.homebankingdemo.model.users.Employee;
 import uni.mirkoz.homebankingdemo.model.users.Status;
+import uni.mirkoz.homebankingdemo.model.users.User;
 import uni.mirkoz.homebankingdemo.repository.banks.BankBranchRepository;
 import uni.mirkoz.homebankingdemo.repository.banks.BankProductRepository;
-import uni.mirkoz.homebankingdemo.repository.banks.BankRepository;
 import uni.mirkoz.homebankingdemo.repository.banks.BankServiceRepository;
 import uni.mirkoz.homebankingdemo.repository.users.BankManagerRepository;
 import uni.mirkoz.homebankingdemo.repository.users.EmployeeRepository;
-import uni.mirkoz.homebankingdemo.repository.users.UserRepository;
 import uni.mirkoz.homebankingdemo.service.contract.BankManagerService;
+import uni.mirkoz.homebankingdemo.util.PasswordGenerator;
 
 import java.util.List;
-import java.util.NoSuchElementException;
 
 @Component
 public class BankManagerServiceImpl implements BankManagerService {
+
+    private Logger logger = LoggerFactory.getLogger(AdministratorServiceImpl.class);
 
     private BankManagerRepository bankManagerRepository;
     private BankBranchRepository bankBranchRepository;
     private BankProductRepository bankProductRepository;
     private BankServiceRepository bankServiceRepository;
     private EmployeeRepository employeeRepository;
+    private PasswordGenerator passwordGenerator;
+    private PasswordEncoder passwordEncoder;
 
-    public BankManagerServiceImpl(BankManagerRepository bankManagerRepository, BankBranchRepository bankBranchRepository, BankProductRepository bankProductRepository, BankServiceRepository bankServiceRepository, EmployeeRepository employeeRepository) {
+    public BankManagerServiceImpl(BankManagerRepository bankManagerRepository, BankBranchRepository bankBranchRepository, BankProductRepository bankProductRepository, BankServiceRepository bankServiceRepository, EmployeeRepository employeeRepository, PasswordGenerator passwordGenerator, PasswordEncoder passwordEncoder) {
         this.bankManagerRepository = bankManagerRepository;
         this.bankBranchRepository = bankBranchRepository;
         this.bankProductRepository = bankProductRepository;
         this.bankServiceRepository = bankServiceRepository;
         this.employeeRepository = employeeRepository;
+        this.passwordGenerator = passwordGenerator;
+        this.passwordEncoder = passwordEncoder;
     }
 
     @Override
@@ -46,7 +53,12 @@ public class BankManagerServiceImpl implements BankManagerService {
 
     @Override
     public Employee assignEmployee(BankBranch bankBranch, Employee employee) {
-        // TODO generate a password
+        User user = employee.getUser();
+        String password = passwordGenerator.newPassword();
+        user.setPassword(passwordEncoder.encode(password));
+        user.setStatus(Status.ENABLED);
+        logger.info(String.format("[new employee credentials in clear] - username: %s - password %s",
+                user.getUsername(), password));
         employee.setBankBranch(bankBranch);
         return employeeRepository.save(employee);
     }

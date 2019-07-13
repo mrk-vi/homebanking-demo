@@ -41,6 +41,6 @@ public class PdfController {
         return ResponseEntity.ok()
                 .contentType(MediaType.APPLICATION_PDF)
                 .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=operations.pdf")
-                .body(new ByteArrayResource(PDFGenerator.customerPDFReport(bankingOperations)));
+                .body(new ByteArrayResource(PDFGenerator.bankingOperationPDFReport(bankingOperations)));
     }
 }
