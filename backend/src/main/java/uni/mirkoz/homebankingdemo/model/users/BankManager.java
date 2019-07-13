@@ -1,6 +1,6 @@
 package uni.mirkoz.homebankingdemo.model.users;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.*;
 import uni.mirkoz.homebankingdemo.model.banks.Bank;
 
@@ -10,16 +10,21 @@ import javax.persistence.*;
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
+@ToString(exclude = {"user", "bank"})
 public class BankManager {
 
     @Id@GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
-    @JsonIgnore
-    @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "bank_id")
+
+    @ManyToOne
+    @JsonManagedReference
     private Bank bank;
-    @OneToOne(optional = false)
+
+    @OneToOne(optional = false, cascade = CascadeType.ALL)
+    @JoinColumn(name = "user_id")
+    @JsonManagedReference
     private User user;
+
     @Enumerated(value = EnumType.ORDINAL)
     private Status status;
 }

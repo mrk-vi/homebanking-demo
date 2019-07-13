@@ -7,7 +7,7 @@ spring:
     hibernate:
       ddl-auto: create #will create schema based on entities
     show-sql: true
-    #database-platform: org.hibernate.dialect.${DB_DIALECT:H2Dialect}
+    database-platform: org.hibernate.dialect.${DB_DIALECT:H2Dialect}
   h2:
     console:
       enabled: ${DB_CONSOLE:true}
@@ -15,3 +15,12 @@ spring:
       settings:
         trace: false
         web-allow-others: false
+  servlet:
+    multipart:
+      enabled: true
+#      file-size-threshold: 2KB
+      max-file-size: 5MB
+      max-request-size: 20MB
+
+file:
+  upload-dir: ${UPLOAD_DIR:/home/mirko/Desktop/uploads}

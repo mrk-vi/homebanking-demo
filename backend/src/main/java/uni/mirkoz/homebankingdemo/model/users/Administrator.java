@@ -1,20 +1,22 @@
 package uni.mirkoz.homebankingdemo.model.users;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.*;
-import net.bytebuddy.description.field.FieldDescription;
-import org.springframework.stereotype.Component;
 
 import javax.persistence.*;
-import java.util.Date;
 
 @Data@Builder
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
+@ToString(exclude = {"user"})
 public class Administrator{
 
     @Id@GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
-    @OneToOne(optional = false)
+
+    @OneToOne(optional = false, cascade = CascadeType.ALL)
+    @JoinColumn(name = "user_id")
+    @JsonManagedReference
     private User user;
 }

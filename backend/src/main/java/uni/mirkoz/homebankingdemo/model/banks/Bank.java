@@ -1,10 +1,7 @@
 package uni.mirkoz.homebankingdemo.model.banks;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import uni.mirkoz.homebankingdemo.model.users.BankManager;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import lombok.*;
 
 import javax.persistence.*;
 import java.util.List;
@@ -13,30 +10,39 @@ import java.util.List;
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
+@ToString(exclude = {"bankBranches", "images"}) // "bankManagers",
 public class Bank {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
-    @OneToOne
-    @JoinColumn(name = "bank_manager_id")
-    private BankManager bankManager;
-    @OneToMany
-    @JoinColumn(name = "bank_id")
-    private List<BankBranch> bankBranches;
-    @OneToMany
-    @JoinColumn(name = "bank_id")
-    private List<BankProduct> bankProducts;
-    @OneToMany
-    @JoinColumn(name = "bank_id")
-    private List<BankService> bankServices;
+
     @Column(nullable = false, unique = true)
     private String name;
+
     @Column(nullable = false, unique = true)
     private String address;
+
     @Column
     private String description;
-    @OneToMany
-    @JoinColumn(name = "bank_id")
-    private List<BankPhoto> bankPhotos;
+
+    @OneToMany(mappedBy = "bank")
+    @JsonManagedReference
+    private List<BankBranch> bankBranches;
+
+//    @OneToMany(mappedBy = "bank")
+//    @JsonManagedReference
+//    private List<BankProduct> bankProducts;
+//
+//    @OneToMany(mappedBy = "bank")
+//    @JsonManagedReference
+//    private List<BankService> bankServices;
+
+//    @OneToMany(mappedBy = "bank", fetch = FetchType.LAZY)
+//    @JsonBackReference
+//    private List<BankManager> bankManagers;
+//
+    @OneToMany(mappedBy = "bank")
+    @JsonManagedReference
+    private List<Image> images;
 }

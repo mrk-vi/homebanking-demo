@@ -10,6 +10,7 @@ import javax.persistence.ManyToOne;
 @Data@Entity
 @EqualsAndHashCode(callSuper = true)
 public class BankServiceOperation extends Operation{
+
     @ManyToOne
     private BankService bankService;
 }

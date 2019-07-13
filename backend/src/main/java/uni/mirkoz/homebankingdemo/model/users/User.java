@@ -19,23 +19,38 @@ public class User {
 
     @Id@GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
+
     @Column(unique = true)
     private String username;
+
     @Column(unique = true)
     private String mail;
+
     @Column@JsonIgnore
     private String password;
+
     @Column
     @CreationTimestamp
     @Temporal(TemporalType.TIMESTAMP)
     private Date created;
-    @OneToOne@JsonIgnore
-    private Administrator admin;
-    @OneToOne@JsonIgnore
-    private Employee employee;
-    @OneToOne@JsonIgnore
+
+    @Enumerated(value = EnumType.ORDINAL)
+    private Status status;
+
+    @JsonIgnore
+    @OneToOne(mappedBy = "user")
+    private Administrator administrator;
+
+    @JsonIgnore
+    @OneToOne(mappedBy = "user")
     private BankManager bankManager;
-    @OneToMany
-    @JoinColumn(name = "user_id")
-    private List<Customer> customers;
+
+    @JsonIgnore
+    @OneToOne(mappedBy = "user")
+    private Employee employee;
+
+//    @JsonIgnore
+//    @OneToMany(mappedBy = "user", fetch = FetchType.EAGER)
+//    private List<Customer> customers;
+
 }
