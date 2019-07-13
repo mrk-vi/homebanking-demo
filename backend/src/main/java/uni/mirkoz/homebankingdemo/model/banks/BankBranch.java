@@ -2,6 +2,7 @@ package uni.mirkoz.homebankingdemo.model.banks;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.*;
@@ -53,9 +54,9 @@ public class BankBranch {
 //    @OneToMany(mappedBy = "bankBranch", fetch = FetchType.LAZY)
 //    @JsonBackReference
 //    private List<Customer> customers;
-
-    @OneToMany(mappedBy = "bankBranch", fetch = FetchType.LAZY)
-    @JsonBackReference
+//
+    @OneToMany(mappedBy = "bankBranch")
+    @JsonManagedReference
     private List<Image> images;
 
 }

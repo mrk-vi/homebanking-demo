@@ -1,9 +1,7 @@
 package uni.mirkoz.homebankingdemo.model.banks;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.*;
-import uni.mirkoz.homebankingdemo.model.users.BankManager;
 
 import javax.persistence.*;
 import java.util.List;
@@ -12,7 +10,7 @@ import java.util.List;
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
-@ToString(exclude = {"bankBranches", "bankManagers", "images"})
+@ToString(exclude = {"bankBranches", "images"}) // "bankManagers",
 public class Bank {
 
     @Id
@@ -40,13 +38,11 @@ public class Bank {
 //    @JsonManagedReference
 //    private List<BankService> bankServices;
 
-    @OneToMany(mappedBy = "bank", fetch = FetchType.LAZY)
-    @JsonBackReference
-    private List<BankManager> bankManagers;
-
-    @OneToMany(mappedBy = "bank", fetch = FetchType.LAZY)
-    @JsonBackReference
+//    @OneToMany(mappedBy = "bank", fetch = FetchType.LAZY)
+//    @JsonBackReference
+//    private List<BankManager> bankManagers;
+//
+    @OneToMany(mappedBy = "bank")
+    @JsonManagedReference
     private List<Image> images;
-
-
 }

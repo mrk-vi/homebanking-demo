@@ -2,10 +2,7 @@ package uni.mirkoz.homebankingdemo.service;
 
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
-import uni.mirkoz.homebankingdemo.model.banks.Bank;
-import uni.mirkoz.homebankingdemo.model.banks.BankBranch;
-import uni.mirkoz.homebankingdemo.model.banks.BankProduct;
-import uni.mirkoz.homebankingdemo.model.banks.BankService;
+import uni.mirkoz.homebankingdemo.model.banks.*;
 import uni.mirkoz.homebankingdemo.model.users.Customer;
 import uni.mirkoz.homebankingdemo.model.users.Status;
 import uni.mirkoz.homebankingdemo.model.users.User;

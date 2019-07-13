@@ -1,12 +1,16 @@
 package uni.mirkoz.homebankingdemo.model.banks;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
-import lombok.Data;
-import lombok.ToString;
+import lombok.*;
 
 import javax.persistence.*;
 
-@Data@Entity
+@Data@Builder
+@Entity
+@NoArgsConstructor
+@AllArgsConstructor
 @ToString(exclude = {"bank", "bankBranch"})
 public class Image {
 
@@ -14,13 +18,13 @@ public class Image {
     private Integer id;
 
     @Column(nullable = false)
-    private String path;
+    private String fileName;
 
     @ManyToOne
-    @JsonManagedReference
+    @JsonBackReference
     private Bank bank;
 
     @ManyToOne
-    @JsonManagedReference
+    @JsonBackReference
     private BankBranch bankBranch;
 }

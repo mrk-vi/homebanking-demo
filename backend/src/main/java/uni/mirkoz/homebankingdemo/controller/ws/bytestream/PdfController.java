@@ -1,5 +1,7 @@
-package uni.mirkoz.homebankingdemo.controller.bytestream;
+package uni.mirkoz.homebankingdemo.controller.ws.bytestream;
 
+import org.springframework.core.io.ByteArrayResource;
+import org.springframework.core.io.Resource;
 import org.springframework.http.*;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -31,14 +33,14 @@ public class PdfController {
     @PostMapping(value = "/employee/banking-operations/pdf",
             produces = {MediaType.APPLICATION_OCTET_STREAM_VALUE, MediaType.APPLICATION_PDF_VALUE},
             consumes = "application/json")
-    public ResponseEntity<byte[]> exportBankingOperationsPDF(@RequestBody OperationFilter filter) {
+    public ResponseEntity<Resource> exportBankingOperationsPDF(@RequestBody OperationFilter filter) {
 
         Employee employee = authenticationService.getPrincipal().getEmployee().get();
         List<BankingOperation> bankingOperations = employeeService.getBankingOperations(employee, filter);
 
-        HttpHeaders headers = new HttpHeaders();
-        headers.setContentType(MediaType.APPLICATION_PDF);
-        headers.setContentDisposition(ContentDisposition.parse("filename=operations.pdf"));
-        return new ResponseEntity<>(PDFGenerator.customerPDFReport(bankingOperations), headers, HttpStatus.OK);
+        return ResponseEntity.ok()
+                .contentType(MediaType.APPLICATION_PDF)
+                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=operations.pdf")
+                .body(new ByteArrayResource(PDFGenerator.customerPDFReport(bankingOperations)));
     }
 }
