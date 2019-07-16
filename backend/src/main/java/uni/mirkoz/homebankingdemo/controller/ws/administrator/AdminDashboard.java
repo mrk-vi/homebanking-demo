@@ -8,7 +8,6 @@ import uni.mirkoz.homebankingdemo.model.banks.Bank;
 import uni.mirkoz.homebankingdemo.model.users.BankManager;
 import uni.mirkoz.homebankingdemo.model.users.Customer;
 import uni.mirkoz.homebankingdemo.model.users.User;
-import uni.mirkoz.homebankingdemo.repository.users.CustomerRepository;
 import uni.mirkoz.homebankingdemo.service.contract.AdministratorService;
 
 import java.util.List;
