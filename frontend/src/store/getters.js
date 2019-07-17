@@ -4,25 +4,35 @@ export default {
 
     auth: state => state.auth,
 
-    isAdmin: state => { 
+    client: state => state.client,
+
+    isAdmin: state => {
         try {
-            return state.user.authorities.find(item => item==="ADMIN")?true:false
+            return !!state.user.authorities.find(item => item === "ADMIN")
         } catch (err) {
             return false
         }
     },
-    
-    isManager: state => { 
+
+    isManager: state => {
         try {
-            return state.user.authorities.find(item => item==="MANAGER")?true:false
+            return !!state.user.authorities.find(item => item === "MANAGER")
         } catch (err) {
             return false
         }
     },
-    
-    isEmployee: state => { 
+
+    isEmployee: state => {
         try {
-            return state.user.authorities.find(item => item==="EMPLOYEE")?true:false
+            return !!state.user.authorities.find(item => item === "EMPLOYEE")
+        } catch (err) {
+            return false
+        }
+    },
+
+    isCustomer: state => {
+        try {
+            return !!state.user.authorities.find(item => item === "CUSTOMER")
         } catch (err) {
             return false
         }
