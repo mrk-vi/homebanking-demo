@@ -5,26 +5,63 @@
         </a>
 
         <div class="navbar-dropdown">
-            <a class="navbar-item">
-                About
+            <a class="navbar-item" @click="isDepositModalActive = true">
+                Deposit
             </a>
-            <a class="navbar-item">
-                Jobs
+            <a class="navbar-item" @click="isWithdrawModalActive = true">
+                Withdraw
             </a>
-            <a class="navbar-item">
-                Contact
+            <a class="navbar-item" @click="isTransferModalActive = true">
+                Transfer
+            </a>
+            <a class="navbar-item" @click="isRefillModalActive = true">
+                Refill Mobile
+            </a>
+            <a class="navbar-item" @click="isCarTaxModalActive = true">
+                Car Tax
             </a>
             <hr class="navbar-divider">
             <a class="navbar-item">
                 Report an issue
             </a>
         </div>
+
+        <b-modal :active.sync="isDepositModalActive" has-modal-card>
+            <deposit></deposit>
+        </b-modal>
+        <b-modal :active.sync="isWithdrawModalActive" has-modal-card>
+            <withdraw></withdraw>
+        </b-modal>
+        <b-modal :active.sync="isTransferModalActive" has-modal-card>
+            <transfer></transfer>
+        </b-modal>
+        <b-modal :active.sync="isRefillModalActive" has-modal-card>
+            <refill></refill>
+        </b-modal>
+        <b-modal :active.sync="isCarTaxModalActive" has-modal-card>
+            <car-tax></car-tax>
+        </b-modal>
     </div>
 </template>
 
 <script>
+    import Deposit from "../customer/Deposit";
+    import Withdraw from "../customer/Withdraw";
+    import Transfer from "../customer/Transfer";
+    import Refill from "../customer/Refill";
+    import CarTax from "../customer/CarTax";
     export default {
-        name: "CustomerNavbar"
+        name: "CustomerNavbar",
+        components: {CarTax, Refill, Transfer, Withdraw, Deposit},
+        data() {
+            return {
+                isDepositModalActive: false,
+                isWithdrawModalActive: false,
+                isTransferModalActive: false,
+                isRefillModalActive: false,
+                isCarTaxModalActive: false
+            }
+        }
     }
 </script>
 
