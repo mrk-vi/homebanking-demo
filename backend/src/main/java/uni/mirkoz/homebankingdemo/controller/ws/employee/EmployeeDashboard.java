@@ -23,13 +23,13 @@ public class EmployeeDashboard {
         this.authenticationService = authenticationService;
     }
 
-    @PutMapping(value = "banking-operation/{id}/authorize", produces = "application/json", consumes = "application/json")
+    @PutMapping(value = "banking-operation/{id}/authorize", produces = "application/json")
     public BankingOperation authorizeBankingOperation(@PathVariable Integer id) {
         Employee employee = authenticationService.getPrincipal().getEmployee().get();
         return employeeService.authorizeBankingOperation(employee, id);
     }
 
-    @PutMapping(value = "banking-operation/{id}/negate", produces = "application/json", consumes = "application/json")
+    @PutMapping(value = "banking-operation/{id}/negate", produces = "application/json")
     public BankingOperation negateBankingOperation(@PathVariable Integer id) {
         Employee employee = authenticationService.getPrincipal().getEmployee().get();
         return employeeService.negateBankingOperation(employee, id);
