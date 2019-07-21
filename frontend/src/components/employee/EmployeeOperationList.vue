@@ -74,9 +74,9 @@
                     <b-table-column label="Iban">
                         {{operation.row.bankAccount.iban}}
                     </b-table-column>
-<!--                    <b-table-column label="Action">-->
-<!--                        <b-button @click="details(operation.row)">Details</b-button>-->
-<!--                    </b-table-column>-->
+                    <b-table-column label="Action">
+                        <b-button @click="details(operation.row)">Details</b-button>
+                    </b-table-column>
                 </template>
             </b-table>
         </section>
@@ -89,10 +89,11 @@
     import BSelect from "buefy/src/components/select/Select";
     import BDatepicker from "buefy/src/components/datepicker/Datepicker";
     import BNumberinput from "buefy/src/components/numberinput/Numberinput";
+    import OperationDetail from "./OperationDetail";
 
     export default {
         name: "EmployeeOperationsList",
-        components: {BNumberinput, BDatepicker, BSelect, BField},
+        components: {BNumberinput, BDatepicker, BSelect, BField, OperationDetail},
         data() {
             return {
                 filter: {
@@ -149,9 +150,15 @@
                     window.URL.revokeObjectURL(fileURL);
                 }, 100);
             },
-            // details: function (operation) {
-            //
-            // }
+            details: function (operation) {
+                this.$modal.open({
+                    parent: this.$parent,
+                    component: OperationDetail,
+                    props: operation,
+                    hasModalCard: true,
+                    onCancel: this.$parent.close()
+                })
+            }
         }
     }
 </script>
