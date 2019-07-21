@@ -1,18 +1,41 @@
 <template>
-  <div class="home">
-    <img alt="Vue logo" src="../assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
-  </div>
+    <div id="home">
+        <div class="hero is-primary is-bold">
+            <div class="hero-body">
+                <div class="container">
+                    <p class="title">
+                        Your bank at home
+                    </p>
+                </div>
+            </div>
+        </div>
+        <BanksList/>
+    </div>
 </template>
 
 <script>
-// @ is an alias to /src
-import HelloWorld from '@/components/HelloWorld.vue'
+    import BanksList from '../components/visitor/BanksList.vue'
+    import {publicClient} from '../service'
 
-export default {
-  name: 'home',
-  components: {
-    HelloWorld
-  }
-}
+    export default {
+        name: 'home',
+        components: {
+            BanksList
+        },
+        data: () => {
+            return {
+                banks: {}
+            }
+        },
+        methods: {
+            fetchData: async function () {
+                const client = await publicClient()
+                const banks = await client.apis['visitor-controller'].getBanksUsingGET_1()
+                return banks.data
+            }
+        },
+        created: async function () {
+            this.banks = await this.fetchData()
+        }
+    }
 </script>

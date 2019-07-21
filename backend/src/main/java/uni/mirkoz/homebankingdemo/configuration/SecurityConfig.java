@@ -10,8 +10,17 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.CorsConfigurationSource;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import uni.mirkoz.homebankingdemo.security.Authority;
 import uni.mirkoz.homebankingdemo.security.HomeBankingUserDetailsService;
+
+import javax.servlet.http.HttpServletRequest;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.List;
 
 @Configuration
 @EnableWebSecurity
@@ -40,10 +49,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http
+                .cors().configurationSource(this::corsConfiguration)
+                .and()
                 .httpBasic()
                 .and()
                 .authorizeRequests()
-                .antMatchers("/customer/**").hasAuthority(Authority.USER.name())
+                .antMatchers("/customer/**").hasAuthority(Authority.CUSTOMER.name())
                 .antMatchers("/admin/**").hasAuthority(Authority.ADMIN.name())
                 .antMatchers("/manager/**").hasAnyAuthority(Authority.MANAGER.name())
                 .antMatchers("/employee/**").hasAuthority(Authority.EMPLOYEE.name())
@@ -51,6 +62,15 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .csrf().disable()
                 .formLogin().disable()
                 .headers().frameOptions().disable(); // for h2-console
+    }
+
+    private CorsConfiguration corsConfiguration(HttpServletRequest req) {
+        CorsConfiguration configuration = new CorsConfiguration();
+        configuration.addAllowedOrigin(req.getHeader("origin"));
+        configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS"));
+        configuration.setAllowedHeaders(Arrays.asList("authorization","origin", "content-type", "accept"));
+        configuration.setMaxAge(Integer.toUnsignedLong(3600));
+        return configuration;
     }
 
     private HomeBankingUserDetailsService homeBankingUserDetailsService;

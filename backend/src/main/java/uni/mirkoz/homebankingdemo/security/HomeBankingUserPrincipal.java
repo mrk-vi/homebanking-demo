@@ -1,5 +1,6 @@
 package uni.mirkoz.homebankingdemo.security;
 
+import io.swagger.annotations.Authorization;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -30,8 +31,8 @@ public class HomeBankingUserPrincipal implements HomeBankingUserDetails {
             authorities.add( new SimpleGrantedAuthority(Authority.MANAGER.name()) );
         if (getEmployee().isPresent())
             authorities.add( new SimpleGrantedAuthority(Authority.EMPLOYEE.name()) );
-//        if (getCustomers().isPresent() && ! getCustomers().get().isEmpty())
-//            authorities.add( new SimpleGrantedAuthority("customer") );
+        if (getCustomers().isPresent() && ! getCustomers().get().isEmpty())
+            authorities.add( new SimpleGrantedAuthority(Authority.CUSTOMER.name()) );
         return authorities;
     }
 
@@ -84,9 +85,9 @@ public class HomeBankingUserPrincipal implements HomeBankingUserDetails {
     public User getUser() {
         return this.user;
     }
-//
-//    @Override
-//    public Optional<List<Customer>> getCustomers() {
-//        return Optional.ofNullable(user.getCustomers());
-//    }
+
+    @Override
+    public Optional<List<Customer>> getCustomers() {
+        return Optional.ofNullable(user.getCustomers());
+    }
 }
