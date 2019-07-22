@@ -1,7 +1,7 @@
 <template>
     <div class="modal-card" style="width: auto">
         <div class="modal-card-head">
-            <header>Operations list</header>
+            <header>Banking Operations list</header>
         </div>
         <section class="modal-card-body">
             <form>
@@ -55,11 +55,6 @@
                                 class="button is-primary"
                                 @click="search">Search</button>
                     </p>
-                    <p class="control">
-                        <button
-                                class="button is-success"
-                                @click="exportPDF">Export PDF</button>
-                    </p>
                 </b-field>
             </form>
 
@@ -88,15 +83,10 @@
 
 <script>
     import {mapGetters} from "vuex";
-    import BField from "buefy/src/components/field/Field";
-    import BSelect from "buefy/src/components/select/Select";
-    import BDatepicker from "buefy/src/components/datepicker/Datepicker";
-    import BNumberinput from "buefy/src/components/numberinput/Numberinput";
-    import OperationDetail from "./EmployeeOperationDetail";
+    import BankingOperationDetail from "./BankingOperationDetail";
 
     export default {
-        name: "EmployeeOperationsList",
-        components: {BNumberinput, BDatepicker, BSelect, BField, OperationDetail},
+        name: "BankingOperationList",
         data() {
             return {
                 filter: {
@@ -113,7 +103,7 @@
         computed: {
             ...mapGetters(['client'])
         },
-        methods:{
+        methods: {
             parseFilter: (filter) => {
                 try {
                     filter.toDay.setHours(filter.toDay.getHours()+24)
@@ -132,31 +122,14 @@
             },
             search: async function(evt) {
                 evt.preventDefault()
-                const res = await this.client.apis['employee-dashboard'].getBankingOperationsUsingPOST({filter: this.parseFilter(this.filter)})
+                const res = await this.client.apis['customer-dashboard']
+                    .getBankingOperationsUsingPOST({ filter: this.parseFilter(this.filter) })
                 this.operations = JSON.parse(res.data)
-            },
-            exportPDF: async function(evt){
-                evt.preventDefault()
-                const res = await this.client.apis['pdf-controller'].exportBankingOperationsPDFUsingPOST({filter: this.parseFilter(this.filter)})
-
-                // HANDLING OF BLOB
-
-                const fileURL = URL.createObjectURL(res.data)
-
-                // hack that works on the most common browsers
-                var link = document.createElement('a');
-                link.href = fileURL;
-                link.download="operations.pdf";
-                link.click();
-                setTimeout(function(){
-                    // For Firefox it is necessary to delay revoking the ObjectURL
-                    window.URL.revokeObjectURL(fileURL);
-                }, 100);
             },
             details: function (operation) {
                 this.$modal.open({
                     parent: this.$parent,
-                    component: OperationDetail,
+                    component: BankingOperationDetail,
                     props: operation,
                     hasModalCard: true,
                     //onCancel: this.$parent.close()
@@ -166,6 +139,6 @@
     }
 </script>
 
-<style scoped>
+<style>
 
 </style>

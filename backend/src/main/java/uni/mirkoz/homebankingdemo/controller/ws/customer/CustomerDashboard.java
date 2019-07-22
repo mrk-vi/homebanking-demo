@@ -25,13 +25,13 @@ public class CustomerDashboard {
         this.customerService = customerService;
     }
 
-    @GetMapping(value = "banking-operations", produces = "application/json", consumes = "application/json")
+    @PostMapping(value = "banking-operations", produces = "application/json", consumes = "application/json")
     public List<BankingOperation> getBankingOperations(@RequestBody OperationFilter filter) {
         User user = authenticationService.getPrincipal().getUser();
         return customerService.getBankingOperationsByUser(user, filter);
     }
 
-    @GetMapping(value = "service-operations", produces = "application/json")
+    @PostMapping(value = "service-operations", produces = "application/json")
     public List<BankServiceOperation> getServiceOperations(@RequestBody OperationFilter filter) {
         User user = authenticationService.getPrincipal().getUser();
         return customerService.getServiceOperationsByUser(user, filter);
