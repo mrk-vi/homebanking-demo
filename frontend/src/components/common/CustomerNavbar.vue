@@ -20,6 +20,9 @@
             <a class="navbar-item" @click="isCarTaxModalActive = true">
                 Car Tax
             </a>
+            <a class="navbar-item" @click="isBankingOperationsModalActive = true">
+                Banking Operations list
+            </a>
             <hr class="navbar-divider">
             <a class="navbar-item">
                 Report an issue
@@ -41,6 +44,9 @@
         <b-modal :active.sync="isCarTaxModalActive" has-modal-card>
             <car-tax></car-tax>
         </b-modal>
+        <b-modal :active.sync="isBankingOperationsModalActive" has-modal-card>
+            <banking-operation-list></banking-operation-list>
+        </b-modal>
     </div>
 </template>
 
@@ -50,16 +56,18 @@
     import Transfer from "../customer/Transfer";
     import Refill from "../customer/Refill";
     import CarTax from "../customer/CarTax";
+    import BankingOperationList from "../customer/BankingOperationList";
     export default {
         name: "CustomerNavbar",
-        components: {CarTax, Refill, Transfer, Withdraw, Deposit},
+        components: {BankingOperationList, CarTax, Refill, Transfer, Withdraw, Deposit},
         data() {
             return {
                 isDepositModalActive: false,
                 isWithdrawModalActive: false,
                 isTransferModalActive: false,
                 isRefillModalActive: false,
-                isCarTaxModalActive: false
+                isCarTaxModalActive: false,
+                isBankingOperationsModalActive: false
             }
         }
     }
