@@ -47,6 +47,40 @@
                             required>
                     </b-input>
                 </b-field>
+
+                <template>
+                    <section>
+                        <b-field label="Images">
+                            <b-upload v-model="dropFiles"
+                                      multiple
+                                      drag-drop>
+                                <section class="section">
+                                    <div class="content has-text-centered">
+                                        <p>
+                                            <b-icon
+                                                    icon="upload"
+                                                    size="is-large">
+                                            </b-icon>
+                                        </p>
+                                        <p>Drop your files here or click to upload</p>
+                                    </div>
+                                </section>
+                            </b-upload>
+                        </b-field>
+
+                        <div class="tags">
+                            <span v-for="(file, index) in dropFiles"
+                                  :key="index"
+                                  class="tag is-primary" >
+                                {{file.name}}
+                                <button class="delete is-small"
+                                        type="button"
+                                        @click="deleteDropFile(index)">
+                                </button>
+                            </span>
+                        </div>
+                    </section>
+                </template>
             </section>
             <footer class="modal-card-foot">
                 <button class="button" type="button" @click="$parent.close()">Close</button>
@@ -71,7 +105,8 @@
                     bankAddress: '',
                     mail: '',
                     username: ''
-                }
+                },
+                dropFiles: []
             }
         },
         components: {BInput, BField},
@@ -79,10 +114,19 @@
             ...mapGetters(['client'])
         },
         methods: {
-            submit: function (evt) {
+            submit: async function (evt) {
+                const loadingComponent = this.$loading.open({container: null})
                 evt.preventDefault()
-                this.client.apis['admin-dashboard'].createBankUsingPOST({form: this.form})
+                const res = await this.client.apis['admin-dashboard'].createBankUsingPOST({form: this.form})
+                const bank = JSON.parse(res.data)
+                for (let i = 0; i<this.dropFiles.length; i++){
+                    await this.client.apis['images-controller'].uploadBankImageUsingPOST({file: this.dropFiles[i], id: bank.id})
+                }
+                loadingComponent.close()
                 this.$parent.close()
+            },
+            deleteDropFile(index) {
+                this.dropFiles.splice(index, 1)
             }
         }
     }
