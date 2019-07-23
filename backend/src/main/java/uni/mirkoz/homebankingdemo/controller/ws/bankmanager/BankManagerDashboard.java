@@ -41,13 +41,13 @@ public class BankManagerDashboard {
     }
 
     @GetMapping(value = "bank-products", produces = "application/json")
-    public List<BankProduct> getBankProducts(){
+    public List<BankProduct> getBankProductsByManager(){
         Integer id = authenticationService.getPrincipal().getBankManager().get().getId();
         return bankManagerService.getBankProducts(id);
     }
 
     @GetMapping(value = "bank-services", produces = "application/json")
-    public List<BankService> getBankServices(){
+    public List<BankService> getBankServicesByManager(){
         Integer id = authenticationService.getPrincipal().getBankManager().get().getId();
         return bankManagerService.getBankServices(id);
     }

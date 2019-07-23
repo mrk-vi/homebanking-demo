@@ -5,5 +5,6 @@ public enum OperationType {
     WITHDRAW,
     TRANSFER,
     REFILL,
-    CAR_TAX
+    CAR_TAX,
+    INTERESTS
 }

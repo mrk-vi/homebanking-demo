@@ -23,10 +23,10 @@ public class AdminDashboard {
         this.administratorService = administratorService;
     }
 
-    @GetMapping(value = "banks", produces = "application/json")
-    public List<Bank> getBanks() {
-        return administratorService.getBanks();
-    }
+//    @GetMapping(value = "banks", produces = "application/json")
+//    public List<Bank> getBanksByAdmin() {
+//        return administratorService.getBanks();
+//    }
 
     @GetMapping(value = "unauthorized-customers", produces = "application/json")
     public List<Customer> getCustomers() {

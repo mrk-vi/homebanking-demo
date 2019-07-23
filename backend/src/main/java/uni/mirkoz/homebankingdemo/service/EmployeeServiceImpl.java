@@ -56,7 +56,14 @@ public class EmployeeServiceImpl implements EmployeeService {
             } catch (Exception e) {
                 throw new IllegalArgumentException();
             }
-            bankAccount.setBalance(balance + amount);
+            if (operation.getOperationType() == OperationType.DEPOSIT){
+                bankAccount.setBalance(balance + amount);
+            } else if (operation.getOperationType() == OperationType.WITHDRAW){
+                bankAccount.setBalance(balance + amount);
+            } else {
+                throw new IllegalArgumentException();
+            }
+
         } else {
 //        IF TRANSFER
 //        -----------------------

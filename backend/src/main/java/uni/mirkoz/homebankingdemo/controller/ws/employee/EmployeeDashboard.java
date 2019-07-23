@@ -36,7 +36,7 @@ public class EmployeeDashboard {
     }
 
     @PostMapping(value = "banking-operations", produces = "application/json", consumes = "application/json")
-    public List<BankingOperation> getBankingOperations(@RequestBody OperationFilter filter) {
+    public List<BankingOperation> getBankingOperationsByEmployee(@RequestBody OperationFilter filter) {
         Employee employee = authenticationService.getPrincipal().getEmployee().get();
         return employeeService.getBankingOperations(employee, filter);
     }

@@ -20,6 +20,7 @@
                             <option>TRANSFER</option>
                             <option>REFILL</option>
                             <option>CAR_TAX</option>
+                            <option>INTERESTS</option>
                         </b-select>
                     </b-field>
                 </b-field>
@@ -40,11 +41,13 @@
                 <b-field grouped>
                     <b-field label="From">
                         <b-numberinput
+                                step="0.01"
                                 v-model="filter.fromAmount"
                                 controls-position="compact" icon="currency-eur"></b-numberinput>
                     </b-field>
                     <b-field label="To">
                         <b-numberinput
+                                step="0.01"
                                 v-model="filter.toAmount"
                                 controls-position="compact" icon="currency-eur"></b-numberinput>
                     </b-field>
@@ -132,7 +135,7 @@
             },
             search: async function(evt) {
                 evt.preventDefault()
-                const res = await this.client.apis['employee-dashboard'].getBankingOperationsUsingPOST({filter: this.parseFilter(this.filter)})
+                const res = await this.client.apis['employee-dashboard'].getBankingOperationsByEmployeeUsingPOST({filter: this.parseFilter(this.filter)})
                 this.operations = JSON.parse(res.data)
             },
             exportPDF: async function(evt){

@@ -29,7 +29,7 @@
         methods: {
             fetchData: async function () {
                 const client = await publicClient()
-                const res = await client.apis['visitor-controller'].getBanksUsingGET_1()
+                const res = await client.apis['visitor-controller'].getBanksUsingGET()
                 return JSON.parse(res.data)
             }
         },

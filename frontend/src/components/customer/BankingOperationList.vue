@@ -20,6 +20,7 @@
                             <option>TRANSFER</option>
                             <option>REFILL</option>
                             <option>CAR_TAX</option>
+                            <option>INTERESTS</option>
                         </b-select>
                     </b-field>
                 </b-field>
