@@ -12,11 +12,14 @@ services:
       DB_URL: "jdbc:mysql://db:3306/pps-home-banking"
       DB_USER: "pps-home-banking"
       DB_PASS: "pps1234"
-      DB_DIALECT: "MySQL5InnoDBDialect"
+      DB_DIALECT: "org.hibernate.dialect.MySQL5InnoDBDialect"
       DB_CONSOLE: "false"
+      SHOW_SQL: "true"
       UPLOAD_DIR: "/var/uploads"
     volumes:
       - ./uploads:/var/uploads
+    depends_on:
+      - db
   frontend:
     container_name: frontend
     image: 'uni.mirkoz.homebanking-demo/frontend:latest'
