@@ -46,7 +46,7 @@
             }
         },
         computed: {
-            ...mapGetters(['user', 'auth', 'isManager', 'isAdmin', 'isEmployee'])
+            ...mapGetters(['user', 'auth', 'isManager', 'isAdmin', 'isEmployee', 'isCustomer'])
         },
         methods: {
             fetchData: async function (evt) {
@@ -56,9 +56,18 @@
                     const res = await client.apis['authentication-controller'].getUserInfoUsingGET()
                     this[SET_USER](JSON.parse(res.data))
                     this[SET_CLIENT](client)
+                    if (this.isEmployee) {
+                        this.$router.push('employee')
+                    } else if (this.isManager) {
+                        this.$router.push('manager')
+                    } else if (this.isCustomer) {
+                        this.$router.push('customer')
+                    }else if (this.isAdmin) {
+                        this.$router.push('admin')
+                    }
                     this.$parent.close()
                 } catch (err) {
-                    console.log(err)
+                    // console.log(err)
                 }
             },
             ...mapMutations([SET_USER, SET_CLIENT])

@@ -23,10 +23,6 @@
             <a class="navbar-item" @click="isBankingOperationsModalActive = true">
                 Banking Operations list
             </a>
-            <hr class="navbar-divider">
-            <a class="navbar-item">
-                Report an issue
-            </a>
         </div>
 
         <b-modal :active.sync="isDepositModalActive" has-modal-card>
@@ -51,12 +47,12 @@
 </template>
 
 <script>
-    import Deposit from "../customer/Deposit";
-    import Withdraw from "../customer/Withdraw";
-    import Transfer from "../customer/Transfer";
-    import Refill from "../customer/Refill";
-    import CarTax from "../customer/CarTax";
-    import BankingOperationList from "../customer/BankingOperationList";
+    import Deposit from "../customer/modal/Deposit";
+    import Withdraw from "../customer/modal/Withdraw";
+    import Transfer from "../customer/modal/Transfer";
+    import Refill from "../customer/modal/Refill";
+    import CarTax from "../customer/modal/CarTax";
+    import BankingOperationList from "../customer/modal/BankingOperationList";
     export default {
         name: "CustomerNavbar",
         components: {BankingOperationList, CarTax, Refill, Transfer, Withdraw, Deposit},

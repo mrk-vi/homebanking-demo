@@ -91,9 +91,10 @@
 </template>
 
 <script>
-    import {mapGetters} from 'vuex'
+    import {mapGetters, mapMutations} from 'vuex'
     import BField from "buefy/src/components/field/Field";
     import BInput from "buefy/src/components/input/Input";
+    import {ADD_BANK} from "../../store/mutations-types";
 
     export default {
         name: "CreateBankForm",
@@ -123,11 +124,13 @@
                     await this.client.apis['images-controller'].uploadBankImageUsingPOST({file: this.dropFiles[i], id: bank.id})
                 }
                 loadingComponent.close()
+                this[ADD_BANK] (bank)
                 this.$parent.close()
             },
             deleteDropFile(index) {
                 this.dropFiles.splice(index, 1)
-            }
+            },
+            ...mapMutations([ADD_BANK])
         }
     }
 </script>

@@ -8,10 +8,6 @@
             <a class="navbar-item" @click="isOperationListModalActive = true">
                 Operations List
             </a>
-            <hr class="navbar-divider">
-            <a class="navbar-item">
-                Report an issue
-            </a>
         </div>
 
 
@@ -22,7 +18,7 @@
 </template>
 
 <script>
-    import EmployeeOperationsList from "../employee/EmployeeOperationList";
+    import EmployeeOperationsList from "../employee/modal/EmployeeOperationList";
     export default {
         name: "EmployeeNavbar",
         components: {EmployeeOperationsList},

@@ -47,23 +47,31 @@
 
 <script>
     import BField from "buefy/src/components/field/Field";
-    import {mapGetters} from "vuex";
+    import {mapGetters, mapMutations} from "vuex";
+    import {SET_OPERATIONS} from "../../../store/mutations-types";
     export default {
         name: "OperationDetail",
         components: {BField},
         props: ['id', 'operationType', 'operationState', 'amount', 'bankAccount', 'recipientIban'],
         computed: {
-            ...mapGetters(['client'])
+            ...mapGetters(['client', 'operations'])
         },
         methods:{
-            authorize: async function () {
+            authorize: async function (evt) {
+                evt.preventDefault()
                 await this.client.apis['employee-dashboard'].authorizeBankingOperationUsingPUT({id: this.id})
+                const operations = this.operations.filter( op => op.id !== this.id )
+                this[SET_OPERATIONS](operations)
                 this.$parent.close()
             },
-            negate: async function () {
+            negate: async function (evt) {
+                evt.preventDefault()
                 await this.client.apis['employee-dashboard'].negateBankingOperationUsingPUT({id: this.id})
+                const operations = this.operations.filter( op => op.id !== this.id )
+                this[SET_OPERATIONS](operations)
                 this.$parent.close()
-            }
+            },
+            ...mapMutations([SET_OPERATIONS])
         }
     }
 </script>

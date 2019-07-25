@@ -17,7 +17,7 @@ import uni.mirkoz.homebankingdemo.service.contract.*;
 import java.sql.Time;
 import java.util.List;
 
-@Component
+//@Component
 public class Database {
 
     @Bean

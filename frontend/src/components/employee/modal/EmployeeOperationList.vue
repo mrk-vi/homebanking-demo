@@ -1,6 +1,9 @@
 <template>
-    <div class="container">
-            <div class="title">Operations list</div>
+    <div class="modal-card" style="width: auto">
+        <div class="modal-card-head">
+            <header>Operations list</header>
+        </div>
+        <section class="modal-card-body">
             <form>
                 <b-field grouped>
                     <b-field label="State">
@@ -60,11 +63,6 @@
                                 class="button is-success"
                                 @click="exportPDF">Export PDF</button>
                     </p>
-                    <p class="control">
-                        <button
-                                class="button"
-                                @click="clearFilter">Clear</button>
-                    </p>
                 </b-field>
             </form>
 
@@ -84,6 +82,10 @@
                     </b-table-column>
                 </template>
             </b-table>
+        </section>
+        <footer class="modal-card-foot">
+            <button class="button" type="button" @click="$parent.close()">Close</button>
+        </footer>
     </div>
 </template>
 
@@ -93,8 +95,8 @@
     import BSelect from "buefy/src/components/select/Select";
     import BDatepicker from "buefy/src/components/datepicker/Datepicker";
     import BNumberinput from "buefy/src/components/numberinput/Numberinput";
-    import OperationDetail from "./modal/EmployeeOperationDetail";
-    import {SET_OPERATIONS} from "../../store/mutations-types";
+    import OperationDetail from "./EmployeeOperationDetail";
+    import {SET_OPERATIONS} from "../../../store/mutations-types";
 
     export default {
         name: "EmployeeOperationsList",
@@ -109,6 +111,7 @@
                     state: null,
                     type: null
                 },
+                //operations: []
             }
         },
         computed: {
@@ -163,19 +166,8 @@
                     component: OperationDetail,
                     props: operation,
                     hasModalCard: true,
-                    //onCancel: this.$forceUpdate
+                    onCancel: this.$forceUpdate
                 })
-            },
-            clearFilter: function (evt) {
-                evt.preventDefault()
-                this.filter = {
-                    toDay: null,
-                    fromDay: null,
-                    toAmount: null,
-                    fromAmount: null,
-                    state: null,
-                    type: null
-                }
             },
             ...mapMutations([SET_OPERATIONS])
         },

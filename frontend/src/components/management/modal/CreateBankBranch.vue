@@ -14,10 +14,10 @@
                     >
                     </b-input>
                 </b-field>
-                <b-field label="Bank Address">
+                <b-field label="Bank Branch Address">
                     <b-input
                             type="text"
-                            v-model="form.bankAddress"
+                            v-model="form.bankBranchAddress"
                             placeholder="57 Wall st, New York, NY, USA"
                     >
                     </b-input>
@@ -49,8 +49,9 @@
 </template>
 
 <script>
-    import { mapGetters } from 'vuex'
+    import {mapGetters, mapMutations} from 'vuex'
     import BClockpicker from "buefy/src/components/clockpicker/Clockpicker";
+    import {ADD_BRANCH} from "../../../store/mutations-types";
     export default {
         name: "CreateBankBranch",
         components: {BClockpicker},
@@ -76,9 +77,11 @@
                     bankBranchOpening: this.form.bankBranchOpening.getHours()+':'+this.form.bankBranchOpening.getMinutes(),
                     bankBranchClosing: this.form.bankBranchClosing.getHours()+':'+this.form.bankBranchClosing.getMinutes(),
                 }
-                await this.client.apis['bank-manager-dashboard'].createBankBranchUsingPOST({form: parsed})
+                const res = await this.client.apis['bank-manager-dashboard'].createBankBranchUsingPOST({form: parsed})
+                this[ADD_BRANCH] (JSON.parse(res.data))
                 this.$parent.close()
-            }
+            },
+            ...mapMutations([ADD_BRANCH])
         }
     }
 </script>

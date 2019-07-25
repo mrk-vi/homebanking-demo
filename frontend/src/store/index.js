@@ -10,7 +10,10 @@ Vue.use(Vuex)
 const state = {
     user: {},
     auth: false,
-    client: {}
+    client: {},
+    operations: [],
+    branches: [],
+    banks: []
 }
 
 export default new Vuex.Store({
