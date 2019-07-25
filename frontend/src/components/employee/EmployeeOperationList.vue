@@ -63,7 +63,7 @@
                     <p class="control">
                         <button
                                 class="button"
-                                @click="clearFilter">Clear</button>
+                                @click="clear">Clear</button>
                     </p>
                 </b-field>
             </form>
@@ -166,7 +166,7 @@
                     //onCancel: this.$forceUpdate
                 })
             },
-            clearFilter: function (evt) {
+            clear: function (evt) {
                 evt.preventDefault()
                 this.filter = {
                     toDay: null,
@@ -176,6 +176,7 @@
                     state: null,
                     type: null
                 }
+                this[SET_OPERATIONS] ([])
             },
             ...mapMutations([SET_OPERATIONS])
         },
