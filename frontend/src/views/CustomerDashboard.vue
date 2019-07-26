@@ -22,27 +22,28 @@
 
 <script>
     import BTable from "buefy/src/components/table/Table";
-    import {mapGetters} from "vuex";
+    import {mapGetters, mapMutations} from "vuex";
+    import {SET_BANK_ACCOUNTS} from "../store/mutations-types";
 
     export default {
         name: "CustomerDashboard",
         components: {BTable},
         data() {
             return {
-                bankAccounts: []
             }
         },
         computed: {
-          ...mapGetters(['client'])
+          ...mapGetters(['client', 'bankAccounts'])
         },
         methods:{
             fetchData: async function () {
                 const res = await this.client.apis['customer-dashboard'].getBankAccountsUsingGET()
                 return JSON.parse(res.data)
-            }
+            },
+            ...mapMutations([SET_BANK_ACCOUNTS])
         },
         created: async function () {
-            this.bankAccounts = await this.fetchData()
+            this[SET_BANK_ACCOUNTS] (await this.fetchData())
         }
     }
 </script>

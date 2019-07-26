@@ -42,9 +42,10 @@
 
 <script>
     import BankAccount from "./BankAccount";
-    import {mapGetters} from "vuex";
+    import {mapGetters, mapMutations} from "vuex";
     import BField from "buefy/src/components/field/Field";
     import BSelect from "buefy/src/components/select/Select";
+    import {SET_BANK_ACCOUNTS} from "../../../store/mutations-types";
     export default {
         name: "Refill",
         components: {BSelect, BField, BankAccount},
@@ -64,8 +65,14 @@
             submit: async function (evt) {
                 evt.preventDefault()
                 await this.client.apis['customer-dashboard'].refillUsingPOST({id: this.bankAccountId, form: this.form})
+                this[SET_BANK_ACCOUNTS] (await this.fetchBankAccounts())
                 this.$parent.close()
             },
+            fetchBankAccounts: async function () {
+                const res = await this.client.apis['customer-dashboard'].getBankAccountsUsingGET()
+                return JSON.parse(res.data)
+            },
+            ...mapMutations([SET_BANK_ACCOUNTS])
         }
     }
 </script>

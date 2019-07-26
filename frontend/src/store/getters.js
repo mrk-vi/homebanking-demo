@@ -12,6 +12,8 @@ export default {
 
     banks: state => state.banks,
 
+    bankAccounts: state => state.bankAccounts,
+
     isAdmin: state => {
         try {
             return !!state.user.authorities.find(item => item === "ADMIN")

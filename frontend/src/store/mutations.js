@@ -5,7 +5,7 @@ import {
     UNSET_CLIENT,
     SET_OPERATIONS,
     SET_BRANCHES,
-    ADD_BRANCH, SET_BANKS, ADD_BANK
+    ADD_BRANCH, SET_BANKS, ADD_BANK, SET_BANK_ACCOUNTS
 } from './mutations-types'
 
 export default {
@@ -45,5 +45,10 @@ export default {
 
     [ADD_BANK] (state, payload) {
         state.banks = [...state.banks, payload]
+    },
+
+    [SET_BANK_ACCOUNTS] (state, payload) {
+        state.bankAccounts = payload
     }
+
 }

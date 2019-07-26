@@ -30,6 +30,11 @@ export default new Router({
             path: '/admin',
             name: 'admin',
             component: () => import('../views/AdministratorDashboard.vue')
+        },
+        {
+            path: '/about',
+            name: 'about',
+            component: () => import('../views/About.vue')
         }
     ]
 })

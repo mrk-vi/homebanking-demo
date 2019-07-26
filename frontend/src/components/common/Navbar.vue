@@ -24,7 +24,7 @@
                     <router-link v-show="isManager" class="navbar-item" to="/manager">Dashboard</router-link>
                     <router-link v-show="isCustomer" class="navbar-item" to="/customer">Dashboard</router-link>
                     <router-link v-show="isAdmin" class="navbar-item" to="/admin">Dashboard</router-link>
-
+                    <router-link class="navbar-item" to="/about">About</router-link>
                 </div>
 
                 <div class="navbar-end">

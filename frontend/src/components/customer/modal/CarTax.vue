@@ -30,8 +30,9 @@
 
 <script>
     import BankAccount from "./BankAccount";
-    import {mapGetters} from "vuex";
+    import {mapGetters, mapMutations} from "vuex";
     import BField from "buefy/src/components/field/Field";
+    import {SET_BANK_ACCOUNTS} from "../../../store/mutations-types";
     export default {
         name: "CarTax",
         components: {BField, BankAccount},
@@ -51,8 +52,14 @@
             submit: async function (evt) {
                 evt.preventDefault()
                 await this.client.apis['customer-dashboard'].carTaxUsingPOST({id: this.bankAccountId, form: this.form})
+                this[SET_BANK_ACCOUNTS](await this.fetchBankAccounts())
                 this.$parent.close()
             },
+            fetchBankAccounts: async function () {
+                const res = await this.client.apis['customer-dashboard'].getBankAccountsUsingGET()
+                return JSON.parse(res.data)
+            },
+            ...mapMutations([SET_BANK_ACCOUNTS])
         }
     }
 </script>

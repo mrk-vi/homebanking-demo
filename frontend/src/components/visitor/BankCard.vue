@@ -13,10 +13,10 @@
                 </div>
                 <div class="media-right">
                     <p>
-                        <button class="button" @click="isDetailsModalActive = true">Details</button>
+                       <button class="button" @click="isDetailsModalActive = true">Details</button>
                     </p>
                     <p>
-                        <button class="button" @click="isBranchModalActive = true">Branches</button>
+                       <button class="button" @click="isBranchModalActive = true">Branches</button>
                     </p>
                 </div>
             </div>

@@ -13,7 +13,8 @@ const state = {
     client: {},
     operations: [],
     branches: [],
-    banks: []
+    banks: [],
+    bankAccounts: []
 }
 
 export default new Vuex.Store({
