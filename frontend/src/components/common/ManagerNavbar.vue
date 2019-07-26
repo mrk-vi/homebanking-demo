@@ -14,9 +14,9 @@
             <a class="navbar-item" @click="isAssignBankServiceModalActive = true">
                 Add Service
             </a>
-            <a class="navbar-item" @click="isBankBranchesModalActive = true">
-                Show Branches
-            </a>
+<!--            <a class="navbar-item" @click="isBankBranchesModalActive = true">-->
+<!--                Show Branches-->
+<!--            </a>-->
             <a class="navbar-item" @click="isBankProductsModalActive = true">
                 Show Products
             </a>
@@ -34,9 +34,9 @@
             <AssignService/>
         </b-modal>
 
-        <b-modal :active.sync="isBankBranchesModalActive" has-modal-card>
-            <Branches/>
-        </b-modal>
+<!--        <b-modal :active.sync="isBankBranchesModalActive" has-modal-card>-->
+<!--            <Branches/>-->
+<!--        </b-modal>-->
 
         <b-modal :active.sync="isBankProductsModalActive" has-modal-card>
             <BankProducts/>
@@ -45,11 +45,11 @@
 </template>
 
 <script>
-    import CreateBankBranch from '../management/CreateBankBranch.vue'
-    import CreateBankProduct from '../management/CreateBankProduct.vue'
-    import AssignService from '../management/AssignService.vue'
-    import Branches from '../management/Branches.vue'
-    import BankProducts from '../management/BankProducts.vue'
+    import CreateBankBranch from '../management/modal/CreateBankBranch.vue'
+    import CreateBankProduct from '../management/modal/CreateBankProduct.vue'
+    import AssignService from '../management/modal/AssignService.vue'
+    // import Branches from '../management/modal/Branches.vue'
+    import BankProducts from '../management/modal/BankProducts.vue'
     import BModal from "buefy/src/components/modal/Modal";
 
     export default {
@@ -59,7 +59,7 @@
                 isCreateBankBranchModalActive: false,
                 isCreateBankProductModalActive: false,
                 isAssignBankServiceModalActive: false,
-                isBankBranchesModalActive: false,
+                // isBankBranchesModalActive: false,
                 isBankProductsModalActive: false
             }
         },
@@ -68,7 +68,7 @@
             CreateBankProduct,
             CreateBankBranch,
             AssignService,
-            Branches,
+            // Branches,
             BankProducts
         }
     }

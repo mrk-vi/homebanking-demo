@@ -46,7 +46,7 @@
         },
         methods: {
             fetchData: async function () {
-                const res = await this.client.apis['bank-manager-dashboard'].getBankProductsUsingGET();
+                const res = await this.client.apis['bank-manager-dashboard'].getBankProductsByManagerUsingGET();
                 return JSON.parse(res.data)
             },
             interestRateForm: function (props) {

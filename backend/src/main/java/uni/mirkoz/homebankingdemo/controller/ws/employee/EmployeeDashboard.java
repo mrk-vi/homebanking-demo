@@ -23,20 +23,20 @@ public class EmployeeDashboard {
         this.authenticationService = authenticationService;
     }
 
-    @PutMapping(value = "banking-operation/{id}/authorize", produces = "application/json", consumes = "application/json")
+    @PutMapping(value = "banking-operation/{id}/authorize", produces = "application/json")
     public BankingOperation authorizeBankingOperation(@PathVariable Integer id) {
         Employee employee = authenticationService.getPrincipal().getEmployee().get();
         return employeeService.authorizeBankingOperation(employee, id);
     }
 
-    @PutMapping(value = "banking-operation/{id}/negate", produces = "application/json", consumes = "application/json")
+    @PutMapping(value = "banking-operation/{id}/negate", produces = "application/json")
     public BankingOperation negateBankingOperation(@PathVariable Integer id) {
         Employee employee = authenticationService.getPrincipal().getEmployee().get();
         return employeeService.negateBankingOperation(employee, id);
     }
 
     @PostMapping(value = "banking-operations", produces = "application/json", consumes = "application/json")
-    public List<BankingOperation> getBankingOperations(@RequestBody OperationFilter filter) {
+    public List<BankingOperation> getBankingOperationsByEmployee(@RequestBody OperationFilter filter) {
         Employee employee = authenticationService.getPrincipal().getEmployee().get();
         return employeeService.getBankingOperations(employee, filter);
     }

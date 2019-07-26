@@ -13,10 +13,10 @@
                 </div>
                 <div class="media-right">
                     <p>
-                        <button class="button" @click="isDetailsModalActive = true">Details</button>
+                       <button class="button" @click="isDetailsModalActive = true">Details</button>
                     </p>
                     <p>
-                        <button class="button" @click="isBranchModalActive = true">Branches</button>
+                       <button class="button" @click="isBranchModalActive = true">Branches</button>
                     </p>
                 </div>
             </div>
@@ -36,6 +36,7 @@
 <script>
     import BankDetailsModal from './BankDetailsModal.vue'
     import BankBranchesModal from './BankBranchesModal.vue'
+    import {HOST} from "../../service";
 
     export default {
         name: 'BankCard',
@@ -55,7 +56,7 @@
         computed: {
             imageUrl: function () {
                 try {
-                    return "http://localhost:8080/image/" + this.bank.images[0].id
+                    return "http://"+HOST+":8080/image/" + this.bank.images[0].id
                 } catch (err) {
                     return "https://bulma.io/images/placeholders/1280x960.png"
                 }

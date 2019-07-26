@@ -4,19 +4,20 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
+import uni.mirkoz.homebankingdemo.model.accounts.BankAccount;
+import uni.mirkoz.homebankingdemo.model.accounts.BankingOperation;
 import uni.mirkoz.homebankingdemo.model.banks.Bank;
 import uni.mirkoz.homebankingdemo.model.banks.BankBranch;
 import uni.mirkoz.homebankingdemo.model.banks.BankProduct;
 import uni.mirkoz.homebankingdemo.model.banks.BankService;
 import uni.mirkoz.homebankingdemo.model.users.*;
 import uni.mirkoz.homebankingdemo.repository.users.AdministratorRepository;
-import uni.mirkoz.homebankingdemo.service.contract.AdministratorService;
-import uni.mirkoz.homebankingdemo.service.contract.BankManagerService;
-import uni.mirkoz.homebankingdemo.service.contract.VisitorService;
+import uni.mirkoz.homebankingdemo.service.contract.*;
 
 import java.sql.Time;
+import java.util.List;
 
-@Component
+//@Component
 public class Database {
 
     @Bean
@@ -25,6 +26,8 @@ public class Database {
             AdministratorService administratorService,
             BankManagerService bankManagerService,
             VisitorService visitorService,
+            EmployeeService employeeService,
+            CustomerService customerService,
             PasswordEncoder encoder) {
         return args -> {
             administratorRepository.save(Administrator.builder()
@@ -76,7 +79,7 @@ public class Database {
                                     .closing(Time.valueOf("18:00:00"))
                                     .build()
                     );
-                    bankManagerService.assignEmployee(
+                    Employee employee = bankManagerService.assignEmployee(
                             bankBranch,
                             Employee.builder()
                                     .user(User.builder()
@@ -97,6 +100,16 @@ public class Database {
                             bankBranch.getId()
                     );
                     administratorService.authorizeCustomer(customer.getId());
+                    List<BankAccount> accounts = customerService.getBankAccountsByUser(customer.getUser());
+                    accounts.forEach( account -> {
+                        BankingOperation op1 = customerService.makeDeposit(customer.getUser(), account.getId(), 100F);
+                        BankingOperation op2 = customerService.makeWithdraw(customer.getUser(), account.getId(), 50F);
+                        BankingOperation op3 = customerService.makeDeposit(customer.getUser(), account.getId(), 150F);
+                        BankingOperation op4 = customerService.makeTransfer(customer.getUser(), account.getId(), 30F, accounts.get(1).getIban());
+                        employeeService.authorizeBankingOperation(employee, op1.getId());
+                        employeeService.authorizeBankingOperation(employee, op2.getId());
+                        employeeService.negateBankingOperation(employee, op3.getId());
+                    });
                 }
             }
         };

@@ -15,27 +15,11 @@
 
 <script>
     import BanksList from '../components/visitor/BanksList.vue'
-    import {publicClient} from '../service'
 
     export default {
         name: 'home',
         components: {
             BanksList
-        },
-        data: () => {
-            return {
-                banks: {}
-            }
-        },
-        methods: {
-            fetchData: async function () {
-                const client = await publicClient()
-                const banks = await client.apis['visitor-controller'].getBanksUsingGET_1()
-                return banks.data
-            }
-        },
-        created: async function () {
-            this.banks = await this.fetchData()
         }
     }
 </script>

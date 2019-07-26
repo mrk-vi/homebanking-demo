@@ -5,9 +5,9 @@ spring:
     password: ${DB_PASS:sa}
   jpa:
     hibernate:
-      ddl-auto: create #will create schema based on entities
-    show-sql: false
-    database-platform: org.hibernate.dialect.${DB_DIALECT:H2Dialect}
+      ddl-auto: ${DDL_AUTO:create} # Will create schema based on entities
+    show-sql: ${SHOW_SQL:false}
+    database-platform: ${DB_DIALECT:org.hibernate.dialect.H2Dialect}
   h2:
     console:
       enabled: ${DB_CONSOLE:true}
@@ -23,3 +23,6 @@ spring:
 
 file:
   upload-dir: ${UPLOAD_DIR:/home/mirko/Desktop/uploads}
+
+cron:
+  interests-expression: '0 0 0 15 * ?'  # At midnight on the 15th day of every month

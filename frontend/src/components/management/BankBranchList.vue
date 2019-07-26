@@ -1,7 +1,7 @@
 <template>
-    <div class="modal-card" style="width: auto">
-        <div class="modal-card-head">
-            <header>Branches</header>
+    <div class="container">
+        <div class="title">
+            Branches
         </div>
         <section class="modal-card-body">
             <b-table :data="branches">
@@ -25,17 +25,18 @@
 </template>
 
 <script>
-    import { mapGetters } from 'vuex'
-    import AddEmployeeForm from '../management/AddEmployeeForm.vue'
+    import {mapGetters, mapMutations} from 'vuex'
+    import AddEmployeeForm from './modal/AddEmployeeForm.vue'
+    import {SET_BRANCHES} from "../../store/mutations-types";
     export default {
         name: "Branches",
         data(){
             return {
-                branches: []
+                //branches: []
             }
         },
         computed: {
-            ...mapGetters(['client'])
+            ...mapGetters(['client', 'branches'])
         },
         methods: {
             fetchData: async function () {
@@ -43,17 +44,17 @@
                 return JSON.parse(res.data)
             },
             assignEmployeeForm: function (props) {
-            this.$modal.open({
-                parent: this.$parent,
-                component: AddEmployeeForm,
-                props: props,
-                hasModalCard: true,
-                onCancel: this.$parent.close()
-            })
-            }
+                this.$modal.open({
+                    parent: this,
+                    component: AddEmployeeForm,
+                    props: props,
+                    hasModalCard: true,
+                })
+            },
+            ...mapMutations([SET_BRANCHES])
         },
         created: async function () {
-            this.branches = await this.fetchData()
+            this[SET_BRANCHES] (await this.fetchData())
         }
     }
 </script>

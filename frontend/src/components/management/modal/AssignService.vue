@@ -40,7 +40,7 @@
         },
         methods: {
             fetchData: async function () {
-                const res = await this.client.apis['bank-manager-dashboard'].getBankServicesUsingGET()
+                const res = await this.client.apis['bank-manager-dashboard'].getBankServicesByManagerUsingGET()
                 return JSON.parse(res.data)
             },
             submit: async function (evt) {

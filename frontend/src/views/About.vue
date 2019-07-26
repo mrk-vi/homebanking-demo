@@ -1,6 +1,14 @@
 <template>
     <div id="about">
-        <h1>This is an about page</h1>
+        <div class="container">
+            <h1 class="title">About this project</h1>
+            <section>
+                <p>
+                    Github repository: <a href="https://github.com/mrk-vi/homebanking-demo">https://github.com/mrk-vi/homebanking-demo</a>
+                </p>
+            </section>
+        </div>
+
     </div>
 </template>
 

@@ -53,7 +53,7 @@
         methods: {
             fetchBankProducts: async function () {
                 const client = await publicClient()
-                const res = await client.apis['visitor-controller'].getBankProductsUsingGET_1({id: this.id})
+                const res = await client.apis['visitor-controller'].getBankProductsUsingGET({id: this.id})
                 return JSON.parse(res.data)
             },
             fetchBankServices: async function () {

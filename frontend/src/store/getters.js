@@ -6,6 +6,14 @@ export default {
 
     client: state => state.client,
 
+    operations: state=> state.operations,
+
+    branches: state => state.branches,
+
+    banks: state => state.banks,
+
+    bankAccounts: state => state.bankAccounts,
+
     isAdmin: state => {
         try {
             return !!state.user.authorities.find(item => item === "ADMIN")

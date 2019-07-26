@@ -2,33 +2,21 @@
     <form action="">
         <div class="modal-card" style="width: auto">
             <header class="modal-card-head">
-                <p class="modal-card-title">Refill</p>
+                <p class="modal-card-title">Car Tax</p>
             </header>
             <section class="modal-card-body">
                 <b-field label="Bank Account">
                     <bank-account v-model="bankAccountId"></bank-account>
                 </b-field>
                 <b-field label="Amount">
-                    <b-select v-model="form.amount"
-                              icon="currency-eur">
-                        <option>10</option>
-                        <option>15</option>
-                        <option>20</option>
-                        <option>50</option>
-                        <option>100</option>
-                    </b-select>
+                    <b-numberinput v-model="form.amount"
+                                   controls-position="compact"
+                                   step="1" min="1"
+                                   icon="currency-eur">
+                    </b-numberinput>
                 </b-field>
-                <b-field label="Provider">
-                    <b-select>
-                        <option>Tim</option>
-                        <option>Vodafone</option>
-                        <option>Tre</option>
-                        <option>Wind</option>
-                        <option>Iliad</option>
-                    </b-select>
-                </b-field>
-                <b-field label="Mobile number">
-                    <b-input required v-model="form.phoneNumber" type="text" placeholder="3392214330">
+                <b-field label="License plate">
+                    <b-input required v-model="form.licensePlate" type="text" placeholder="EJ329EE">
                     </b-input>
                 </b-field>
             </section>
@@ -42,17 +30,17 @@
 
 <script>
     import BankAccount from "./BankAccount";
-    import {mapGetters} from "vuex";
+    import {mapGetters, mapMutations} from "vuex";
     import BField from "buefy/src/components/field/Field";
-    import BSelect from "buefy/src/components/select/Select";
+    import {SET_BANK_ACCOUNTS} from "../../../store/mutations-types";
     export default {
-        name: "Refill",
-        components: {BSelect, BField, BankAccount},
+        name: "CarTax",
+        components: {BField, BankAccount},
         data(){
             return {
                 form: {
                     amount: null,
-                    phoneNumber: null
+                    licensePlate: null
                 },
                 bankAccountId: null
             }
@@ -63,9 +51,15 @@
         methods: {
             submit: async function (evt) {
                 evt.preventDefault()
-                await this.client.apis['customer-dashboard'].refillUsingPOST({id: this.bankAccountId, form: this.form})
+                await this.client.apis['customer-dashboard'].carTaxUsingPOST({id: this.bankAccountId, form: this.form})
+                this[SET_BANK_ACCOUNTS](await this.fetchBankAccounts())
                 this.$parent.close()
             },
+            fetchBankAccounts: async function () {
+                const res = await this.client.apis['customer-dashboard'].getBankAccountsUsingGET()
+                return JSON.parse(res.data)
+            },
+            ...mapMutations([SET_BANK_ACCOUNTS])
         }
     }
 </script>
