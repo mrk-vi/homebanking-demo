@@ -10,7 +10,7 @@
   "dependencies": {
     "buefy": "^0.7.10",
     "core-js": "^2.6.5",
-    "swagger-client": "^3.9.0",
+    "swagger-client": "^3.18.5",
     "vue": "^2.6.10",
     "vue-router": "^3.0.3",
     "vuex": "^3.0.1"
